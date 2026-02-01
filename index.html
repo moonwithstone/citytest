@@ -676,7 +676,7 @@
                 → 验证并开始
             </button>
             
-            <p class="footer-text">小红书:书豪创业笔记</p>
+            <p class="footer-text">小红书:温蒂AI分享</p>
         </div>
         <div class="page" id="page-birthdate">
             <div class="icon-wrapper">
@@ -717,7 +717,7 @@
                 → 下一步,查看
             </button>
             
-            <p class="footer-text">小红书:书豪创业笔记</p>
+            <p class="footer-text">小红书:温蒂AI分享</p>
         </div>
 
         <!-- Page 2: Wuxing Result -->
@@ -790,7 +790,7 @@
                 ▶ 开始性格测验
             </button>
             
-            <p class="footer-text">小红书:书豪创业笔记</p>
+            <p class="footer-text">小红书:温蒂AI分享</p>
         </div>
 
         <!-- Page 3: Quiz Intro -->
@@ -825,7 +825,7 @@
                 ▶ 开始测验
             </button>
             
-            <p class="footer-text">小红书:书豪创业笔记</p>
+            <p class="footer-text">小红书:温蒂AI分享</p>
         </div>
 
         <!-- Page 4: Quiz -->
@@ -843,7 +843,7 @@
                 </div>
             </div>
             
-            <p class="footer-text">小红书:书豪创业笔记</p>
+            <p class="footer-text">小红书:温蒂AI分享</p>
         </div>
 
         <!-- Page 5: Result -->
@@ -903,7 +903,7 @@
                 📅 修改出生日期
             </button>
             
-            <p class="footer-text">小红书:书豪创业笔记</p>
+            <p class="footer-text">小红书:温蒂AI分享</p>
         </div>
     </div>
 
@@ -1007,7 +1007,7 @@
             ]
         };
 
-        // 49道测验题 (此处省略,与原版相同)
+        // 49道测验题
         const questions = [
             {
                 question: '你更喜欢哪种自然景观?',
@@ -1029,7 +1029,466 @@
                     { text: '灵活、变通、适应力强', element: 'water' }
                 ]
             },
-            // ... 其他47道题与原版相同
+            {
+                question: '周末你最想做什么?',
+                options: [
+                    { text: '去公园或郊外散步', element: 'wood' },
+                    { text: '约朋友出去玩耍', element: 'fire' },
+                    { text: '待在家里放松休息', element: 'earth' },
+                    { text: '学习新技能或读书', element: 'metal' },
+                    { text: '看电影或听音乐', element: 'water' }
+                ]
+            },
+            {
+                question: '面对困难时你的第一反应是?',
+                options: [
+                    { text: '冷静分析，慢慢找方法', element: 'wood' },
+                    { text: '积极行动，马上去解决', element: 'fire' },
+                    { text: '稳稳当当，按部就班来', element: 'earth' },
+                    { text: '制定计划，严密执行', element: 'metal' },
+                    { text: '灵活调整，换个思路', element: 'water' }
+                ]
+            },
+            {
+                question: '你最向往的生活状态是?',
+                options: [
+                    { text: '自由漂亮的田园生活', element: 'wood' },
+                    { text: '精彩刺激的都市生活', element: 'fire' },
+                    { text: '安静温暖的家庭生活', element: 'earth' },
+                    { text: '高效有序的职业生活', element: 'metal' },
+                    { text: '诗意洒脱的流浪生活', element: 'water' }
+                ]
+            },
+            {
+                question: '你对团队合作的态度是?',
+                options: [
+                    { text: '愿意帮忙，默默付出', element: 'wood' },
+                    { text: '喜欢带领，充当领袖', element: 'fire' },
+                    { text: '踏实支持，做好后勤', element: 'earth' },
+                    { text: '注重效率，推动进度', element: 'metal' },
+                    { text: '善于协调，润滑关系', element: 'water' }
+                ]
+            },
+            {
+                question: '你最喜欢的颜色是?',
+                options: [
+                    { text: '绿色系', element: 'wood' },
+                    { text: '红色或橙色系', element: 'fire' },
+                    { text: '棕色或米色系', element: 'earth' },
+                    { text: '银色或灰色系', element: 'metal' },
+                    { text: '蓝色系', element: 'water' }
+                ]
+            },
+            {
+                question: '你最擅长的能力是?',
+                options: [
+                    { text: '创造力和想象力', element: 'wood' },
+                    { text: '表达力和感染力', element: 'fire' },
+                    { text: '耐心和包容力', element: 'earth' },
+                    { text: '逻辑力和执行力', element: 'metal' },
+                    { text: '沟通力和适应力', element: 'water' }
+                ]
+            },
+            {
+                question: '你理想中的工作环境是?',
+                options: [
+                    { text: '自由开放，创意十足', element: 'wood' },
+                    { text: '活跃热闹，社交丰富', element: 'fire' },
+                    { text: '稳定舒适，氛围融洽', element: 'earth' },
+                    { text: '规范严谨，目标清晰', element: 'metal' },
+                    { text: '灵活多变，不受束缚', element: 'water' }
+                ]
+            },
+            {
+                question: '你最喜欢的季节是?',
+                options: [
+                    { text: '春天，万物复苏', element: 'wood' },
+                    { text: '夏天，热情澎湃', element: 'fire' },
+                    { text: '秋天，金色丰收', element: 'earth' },
+                    { text: '冬天，清冷宁静', element: 'metal' },
+                    { text: '梅雨季，绵绵细雨', element: 'water' }
+                ]
+            },
+            {
+                question: '你最愿意尝试哪种运动?',
+                options: [
+                    { text: '徒步登山或野外探险', element: 'wood' },
+                    { text: '篮球或足球等团队运动', element: 'fire' },
+                    { text: '瑜伽或太极拳', element: 'earth' },
+                    { text: '跑步或马拉松', element: 'metal' },
+                    { text: '游泳或冲浪', element: 'water' }
+                ]
+            },
+            {
+                question: '你对金钱的态度更接近哪一种?',
+                options: [
+                    { text: '自然而然，不太计划', element: 'wood' },
+                    { text: '拿来就花，享受生活', element: 'fire' },
+                    { text: '仔细存款，稳稳攒家底', element: 'earth' },
+                    { text: '做好预算，严格理财', element: 'metal' },
+                    { text: '灵活支配，随机分配', element: 'water' }
+                ]
+            },
+            {
+                question: '社交场合中你最可能做什么?',
+                options: [
+                    { text: '安静观察，适时参与', element: 'wood' },
+                    { text: '活跃发言，成为焦点', element: 'fire' },
+                    { text: '热情招待，照顾大家', element: 'earth' },
+                    { text: '主持节奏，组织活动', element: 'metal' },
+                    { text: '穿针引线，连接各方', element: 'water' }
+                ]
+            },
+            {
+                question: '你解决问题的方式是?',
+                options: [
+                    { text: '凭感觉和直觉来判断', element: 'wood' },
+                    { text: '果断行动，先做再说', element: 'fire' },
+                    { text: '反复斟酌，稳妥为先', element: 'earth' },
+                    { text: '收集数据，理性分析', element: 'metal' },
+                    { text: '多方考量，找到最优解', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想拥有的品质是什么?',
+                options: [
+                    { text: '创新和进步', element: 'wood' },
+                    { text: '勇气和热情', element: 'fire' },
+                    { text: '忠诚和信用', element: 'earth' },
+                    { text: '纪律和精确', element: 'metal' },
+                    { text: '智慧和洞察', element: 'water' }
+                ]
+            },
+            {
+                question: '你最喜欢哪种饮食风格?',
+                options: [
+                    { text: '清淡健康的蔬果料理', element: 'wood' },
+                    { text: '辛辣刺激的火锅或川菜', element: 'fire' },
+                    { text: '家常实在的红烧肉饭', element: 'earth' },
+                    { text: '精致讲究的日料或西餐', element: 'metal' },
+                    { text: '鲜美鲜活的海鲜料理', element: 'water' }
+                ]
+            },
+            {
+                question: '你理想中的度假方式是?',
+                options: [
+                    { text: '深山露营或自然探索', element: 'wood' },
+                    { text: '热闹的旅游景区打卡', element: 'fire' },
+                    { text: '温泉度假或民宿放松', element: 'earth' },
+                    { text: '文化名城参观博物馆', element: 'metal' },
+                    { text: '海岛潜水或帆船航行', element: 'water' }
+                ]
+            },
+            {
+                question: '你看待事情的第一想法是?',
+                options: [
+                    { text: '这里有什么新东西可以学', element: 'wood' },
+                    { text: '这看起来很有趣，试试看', element: 'fire' },
+                    { text: '这样做稳不稳妥呢', element: 'earth' },
+                    { text: '这件事的逻辑对不对', element: 'metal' },
+                    { text: '换个角度看会怎样', element: 'water' }
+                ]
+            },
+            {
+                question: '朋友们评价你最可能说什么?',
+                options: [
+                    { text: '这个人很好心很温柔', element: 'wood' },
+                    { text: '这个人很有激情很积极', element: 'fire' },
+                    { text: '这个人很可靠很稳当', element: 'earth' },
+                    { text: '这个人很严谨很专业', element: 'metal' },
+                    { text: '这个人很聪明很懂人', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待新事物的态度是?',
+                options: [
+                    { text: '很期待，乐于尝试', element: 'wood' },
+                    { text: '兴奋冲动，立刻去做', element: 'fire' },
+                    { text: '观望一段时间再决定', element: 'earth' },
+                    { text: '先研究清楚再行动', element: 'metal' },
+                    { text: '看情况，灵活决定', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想获得哪种成就?',
+                options: [
+                    { text: '开创一个新的领域', element: 'wood' },
+                    { text: '成为行业里的明星', element: 'fire' },
+                    { text: '建立稳定幸福的家庭', element: 'earth' },
+                    { text: '在专业上达到顶峰', element: 'metal' },
+                    { text: '拥有广泛的人脉资源', element: 'water' }
+                ]
+            },
+            {
+                question: '你最讨厌的是什么?',
+                options: [
+                    { text: '被束缚和限制自由', element: 'wood' },
+                    { text: '无聊单调的重复生活', element: 'fire' },
+                    { text: '突如其来的变化和不确定', element: 'earth' },
+                    { text: '粗马虎和不负责任', element: 'metal' },
+                    { text: '刻板教条和僵硬规矩', element: 'water' }
+                ]
+            },
+            {
+                question: '你闲下来最愿意做什么?',
+                options: [
+                    { text: '种植花草或园艺', element: 'wood' },
+                    { text: '和朋友聚餐或唱歌', element: 'fire' },
+                    { text: '整理房间或做手工', element: 'earth' },
+                    { text: '看书或写作', element: 'metal' },
+                    { text: '刷视频或追剧', element: 'water' }
+                ]
+            },
+            {
+                question: '你处理人际关系的方式是?',
+                options: [
+                    { text: '真诚相待，以心换心', element: 'wood' },
+                    { text: '热烈交往，快速拉近关系', element: 'fire' },
+                    { text: '耐心经营，长久维持', element: 'earth' },
+                    { text: '保持距离，理性对待', element: 'metal' },
+                    { text: '察言观色，随机应变', element: 'water' }
+                ]
+            },
+            {
+                question: '你的生活节奏更接近哪一种?',
+                options: [
+                    { text: '随心所欲，自然流动', element: 'wood' },
+                    { text: '快节奏，精力充沛', element: 'fire' },
+                    { text: '平稳匀速，日常规律', element: 'earth' },
+                    { text: '高效有序，时间管理严格', element: 'metal' },
+                    { text: '忽快忽慢，看心情决定', element: 'water' }
+                ]
+            },
+            {
+                question: '你最心仪的住所风格是?',
+                options: [
+                    { text: '木质温暖的日式风格', element: 'wood' },
+                    { text: '色彩鲜艳的地中海风格', element: 'fire' },
+                    { text: '朴素温馨的农家风格', element: 'earth' },
+                    { text: '简洁冷调的北欧风格', element: 'metal' },
+                    { text: '清淡雅致的东方风格', element: 'water' }
+                ]
+            },
+            {
+                question: '你面对压力的方式是?',
+                options: [
+                    { text: '深呼吸，找个安静的地方', element: 'wood' },
+                    { text: '运动或和朋友倾诉', element: 'fire' },
+                    { text: '泡杯茶，慢慢理清思路', element: 'earth' },
+                    { text: '列清单，逐项解决', element: 'metal' },
+                    { text: '听音乐，转移注意力', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待规矩和规则的态度是?',
+                options: [
+                    { text: '愿意灵活变通，不拘一格', element: 'wood' },
+                    { text: '觉得规矩可以创新突破', element: 'fire' },
+                    { text: '尊重规矩，按规行事', element: 'earth' },
+                    { text: '非常在乎，严格遵守', element: 'metal' },
+                    { text: '看具体情况，适者为善', element: 'water' }
+                ]
+            },
+            {
+                question: '你最愿意帮助别人做什么?',
+                options: [
+                    { text: '帮忙出主意或开拓思路', element: 'wood' },
+                    { text: '帮忙鼓励或打气', element: 'fire' },
+                    { text: '帮忙做具体的事务工作', element: 'earth' },
+                    { text: '帮忙分析或提供方案', element: 'metal' },
+                    { text: '帮忙协调沟通关系', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待时间的态度是?',
+                options: [
+                    { text: '活在当下，不太看时钟', element: 'wood' },
+                    { text: '行动力强，不浪费时间', element: 'fire' },
+                    { text: '合理安排，均衡度过', element: 'earth' },
+                    { text: '极其珍惜，精确利用', element: 'metal' },
+                    { text: '随波逐流，顺其自然', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想去哪种城市旅行?',
+                options: [
+                    { text: '绿化丰富的小城镇', element: 'wood' },
+                    { text: '繁华热闹的大都市', element: 'fire' },
+                    { text: '宁静安逸的古镇', element: 'earth' },
+                    { text: '高度现代化的国际城市', element: 'metal' },
+                    { text: '靠海的浪漫海滨城市', element: 'water' }
+                ]
+            },
+            {
+                question: '你看待成功的定义是?',
+                options: [
+                    { text: '做出了自己想做的事情', element: 'wood' },
+                    { text: '获得了社会的认可和尊敬', element: 'fire' },
+                    { text: '拥有了稳定幸福的生活', element: 'earth' },
+                    { text: '达到了预定的目标和标准', element: 'metal' },
+                    { text: '拥有了自由和选择权', element: 'water' }
+                ]
+            },
+            {
+                question: '你的兴趣爱好更接近哪类?',
+                options: [
+                    { text: '绘画、摄影或手工艺', element: 'wood' },
+                    { text: '唱歌、跳舞或演出', element: 'fire' },
+                    { text: '烹饪、编织或园艺', element: 'earth' },
+                    { text: '阅读、研究或编程', element: 'metal' },
+                    { text: '旅游、探索或游戏', element: 'water' }
+                ]
+            },
+            {
+                question: '你最欣赏领导者的哪种特质?',
+                options: [
+                    { text: '有远景、善于启发别人', element: 'wood' },
+                    { text: '有魅力、行动力很强', element: 'fire' },
+                    { text: '有耐心、能得到大家信任', element: 'earth' },
+                    { text: '有原则、决策果断明智', element: 'metal' },
+                    { text: '有智慧、懂得机变权衡', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待未来的态度是?',
+                options: [
+                    { text: '充满希望，愿意探索', element: 'wood' },
+                    { text: '充满激情，迫不及待', element: 'fire' },
+                    { text: '踏实准备，一步一步来', element: 'earth' },
+                    { text: '提前规划，未雨绸缪', element: 'metal' },
+                    { text: '顺势而为，随机应对', element: 'water' }
+                ]
+            },
+            {
+                question: '你最不能接受的工作状态是?',
+                options: [
+                    { text: '被限制创造力和自由度', element: 'wood' },
+                    { text: '缺乏挑战和激励', element: 'fire' },
+                    { text: '环境不稳定东奔西跑', element: 'earth' },
+                    { text: '工作混乱没有章法', element: 'metal' },
+                    { text: '人际关系复杂让人压抑', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想拥有哪种礼物?',
+                options: [
+                    { text: '一套好的创作工具', element: 'wood' },
+                    { text: '一次刺激的旅行体验', element: 'fire' },
+                    { text: '一件温暖贴心的家用品', element: 'earth' },
+                    { text: '一本值得精读的好书', element: 'metal' },
+                    { text: '一份不预约的随心愿望', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待争论的方式是?',
+                options: [
+                    { text: '冷静倾听，理解对方', element: 'wood' },
+                    { text: '直言不讳，敢于表达', element: 'fire' },
+                    { text: '想方设法找到平衡点', element: 'earth' },
+                    { text: '用事实和逻辑来说服', element: 'metal' },
+                    { text: '先退后进，缓和气氛', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待孤独时间的态度是?',
+                options: [
+                    { text: '很享受，用来感受大自然', element: 'wood' },
+                    { text: '不太喜欢，想找人玩', element: 'fire' },
+                    { text: '很放松，用来休息充电', element: 'earth' },
+                    { text: '很高效，用来自我提升', element: 'metal' },
+                    { text: '很自在，用来天马行空', element: 'water' }
+                ]
+            },
+            {
+                question: '你最认同哪种人生观念?',
+                options: [
+                    { text: '人生如树，要不断生根发芽', element: 'wood' },
+                    { text: '人生如火，要燃烧得够亮', element: 'fire' },
+                    { text: '人生如山，要稳稳站得住脚', element: 'earth' },
+                    { text: '人生如剑，要锐利和精确', element: 'metal' },
+                    { text: '人生如水，要流动和变化', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想培养的习惯是什么?',
+                options: [
+                    { text: '每天在大自然中散步', element: 'wood' },
+                    { text: '每天保持积极的心态', element: 'fire' },
+                    { text: '每天规律作息和饮食', element: 'earth' },
+                    { text: '每天制定并完成目标', element: 'metal' },
+                    { text: '每天学习新的事情', element: 'water' }
+                ]
+            },
+            {
+                question: '你给自己放假时最想做什么?',
+                options: [
+                    { text: '种植花园或打造手工艺品', element: 'wood' },
+                    { text: '参加社交活动或派对', element: 'fire' },
+                    { text: '做一顿丰盛的家常菜', element: 'earth' },
+                    { text: '整理房间和个人物品', element: 'metal' },
+                    { text: '躺着看书或追综艺', element: 'water' }
+                ]
+            },
+            {
+                question: '你最欣赏哪种艺术形式?',
+                options: [
+                    { text: '国画或风景摄影', element: 'wood' },
+                    { text: '戏剧或音乐演出', element: 'fire' },
+                    { text: '陶艺或手工编织', element: 'earth' },
+                    { text: '雕塑或建筑设计', element: 'metal' },
+                    { text: '现代装置艺术或文学', element: 'water' }
+                ]
+            },
+            {
+                question: '你觉得最重要的品德是什么?',
+                options: [
+                    { text: '善良和包容', element: 'wood' },
+                    { text: '勇敢和正义', element: 'fire' },
+                    { text: '诚实和踏实', element: 'earth' },
+                    { text: '责任和自律', element: 'metal' },
+                    { text: '智慧和宽容', element: 'water' }
+                ]
+            },
+            {
+                question: '你对待失败的态度是?',
+                options: [
+                    { text: '慢慢消化，总会好起来的', element: 'wood' },
+                    { text: '马上反弹，更加努力', element: 'fire' },
+                    { text: '仔细总结，稳步前进', element: 'earth' },
+                    { text: '反复复盘，找到原因', element: 'metal' },
+                    { text: '看开了，换个方向走', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想拥有的超能力是什么?',
+                options: [
+                    { text: '能让植物快速生长', element: 'wood' },
+                    { text: '能释放火焰或能量', element: 'fire' },
+                    { text: '能让周围一切稳定', element: 'earth' },
+                    { text: '能精确预知未来', element: 'metal' },
+                    { text: '能自由穿越时空', element: 'water' }
+                ]
+            },
+            {
+                question: '你选择一个新项目的理由是什么?',
+                options: [
+                    { text: '觉得有意思，想尝试', element: 'wood' },
+                    { text: '觉得有挑战，想突破', element: 'fire' },
+                    { text: '觉得稳妥，风险不大', element: 'earth' },
+                    { text: '觉得可行，前景明确', element: 'metal' },
+                    { text: '觉得灵活，可以随机调整', element: 'water' }
+                ]
+            },
+            {
+                question: '你最想成为什么样的人?',
+                options: [
+                    { text: '充满创意和爱心的人', element: 'wood' },
+                    { text: '充满热情和影响力的人', element: 'fire' },
+                    { text: '踏实可靠和受尊敬的人', element: 'earth' },
+                    { text: '严谨专业和成就卓越的人', element: 'metal' },
+                    { text: '聪慧洒脱和自由的人', element: 'water' }
+                ]
+            },
             {
                 question: '你更喜欢哪种天气?',
                 options: [
@@ -1098,23 +1557,16 @@
             errorEl.style.display = 'none';
 
             try {
-                // 查询云端: where code = input AND used = false
+                // 查询云端: where code = input
                 const result = await lcRequest('GET',
-                    `/classes/VerificationCode?where=${encodeURIComponent(JSON.stringify({ code: password, used: false }))}&limit=1`
+                    `/classes/VerificationCode?where=${encodeURIComponent(JSON.stringify({ code: password }))}&limit=1`
                 );
 
-                const match = result.results && result.results[0];
-
-                if (match) {
-                    // 找到未使用的验证码 → 标记为已使用
-                    await lcRequest('PUT', `/classes/VerificationCode/${match.objectId}`, {
-                        used: true,
-                        usedAt: { __type: 'Date', iso: new Date().toISOString() }
-                    });
-                    // 验证通过，跳转
+                if (result.results && result.results[0]) {
+                    // 找到验证码，直接通过
                     showPage('page-birthdate');
                 } else {
-                    // 未找到或已使用
+                    // 未找到
                     errorEl.style.display = 'block';
                     input.classList.add('shake');
                     setTimeout(() => input.classList.remove('shake'), 300);
