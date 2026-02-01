@@ -281,116 +281,6 @@
             margin-top: 8px;
         }
 
-        /* Admin Page */
-        .code-list {
-            margin-top: 16px;
-        }
-
-        .code-item {
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .code-info {
-            flex: 1;
-        }
-
-        .code-value {
-            font-size: 20px;
-            font-weight: 600;
-            font-family: 'Courier New', monospace;
-            color: var(--accent-purple);
-            margin-bottom: 4px;
-        }
-
-        .code-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .code-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 13px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-copy {
-            background: var(--accent-blue);
-            color: white;
-        }
-
-        .btn-copy:hover {
-            background: #3b82f6;
-        }
-
-        .btn-delete {
-            background: #ef4444;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background: #dc2626;
-        }
-
-        .add-code-form {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .add-code-form input {
-            flex: 1;
-        }
-
-        .stats-card {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
-            color: white;
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .stats-number {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .stats-label {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .admin-link {
-            text-align: center;
-            margin-top: 16px;
-        }
-
-        .admin-link a {
-            color: var(--text-muted);
-            font-size: 12px;
-            text-decoration: none;
-            opacity: 0.5;
-        }
-
-        .admin-link a:hover {
-            opacity: 1;
-        }
 
         /* Result Card */
         .result-card {
@@ -757,78 +647,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- Admin Login Page -->
-        <div class="page" id="page-admin-login">
-            <div class="icon-wrapper orange">
-                🔐
-            </div>
-            <h1 class="page-title">管理后台</h1>
-            <p class="page-subtitle">请输入管理员密码</p>
-            
-            <div class="card">
-                <div class="card-title">
-                    <span class="emoji">🔑</span>
-                    管理员登录
-                </div>
-                <div class="form-group" style="margin-bottom: 0;">
-                    <input type="password" id="admin-password-input" class="password-input" placeholder="••••••" maxlength="8">
-                    <p class="password-hint">请输入管理员密码</p>
-                    <p class="error-text" id="admin-error" style="display: none;">密码错误,请重试</p>
-                </div>
-            </div>
-            
-            <button class="btn btn-primary" onclick="checkAdminPassword()">
-                → 登录管理后台
-            </button>
-            
-            <button class="btn btn-secondary" onclick="showPage('page-password')" style="margin-top: 12px;">
-                ← 返回测验首页
-            </button>
-        </div>
-
-        <!-- Admin Dashboard -->
-        <div class="page" id="page-admin-dashboard">
-            <div class="icon-wrapper orange">
-                ⚙️
-            </div>
-            <h1 class="page-title">验证码管理</h1>
-            <p class="page-subtitle">管理测验访问验证码</p>
-            
-            <div class="stats-card">
-                <div class="stats-number" id="total-codes">0</div>
-                <div class="stats-label">当前有效验证码数量</div>
-            </div>
-            
-            <div class="card">
-                <div class="card-title">
-                    <span class="emoji">➕</span>
-                    添加新验证码
-                </div>
-                <div class="add-code-form">
-                    <input type="text" id="new-code-input" placeholder="输入4-8位验证码" maxlength="8">
-                    <button class="btn-small btn-success" onclick="addCode()">添加</button>
-                </div>
-                <p class="success-text" id="add-success" style="display: none;">✓ 验证码添加成功!</p>
-                <p class="error-text" id="add-error" style="display: none;"></p>
-            </div>
-            
-            <div class="card">
-                <div class="card-title">
-                    <span class="emoji">📋</span>
-                    验证码列表
-                </div>
-                <div class="code-list" id="code-list">
-                    <!-- Codes will be inserted here -->
-                </div>
-            </div>
-            
-            <button class="btn btn-secondary" onclick="showPage('page-password')">
-                ← 返回测验首页
-            </button>
-            
-            <p class="footer-text">小红书:书豪创业笔记</p>
-        </div>
-
         <!-- Page 0: Password -->
         <div class="page active" id="page-password">
             <div class="icon-wrapper">
@@ -860,8 +678,6 @@
             
             <p class="footer-text">小红书:书豪创业笔记</p>
         </div>
-
-        <!-- Page 1: Birth Date -->
         <div class="page" id="page-birthdate">
             <div class="icon-wrapper">
                 📅
@@ -1093,24 +909,29 @@
 
     <script>
         // ========== 配置区域 ==========
-        const ADMIN_PASSWORD = 'admin888'; // 管理员密码,建议修改
-        
-        // ========== 数据存储 ==========
-        let validCodes = loadCodes();
-        
-        function loadCodes() {
-            const saved = localStorage.getItem('quiz_codes');
-            if (saved) {
-                return JSON.parse(saved);
-            }
-            // 默认验证码
-            return [
-                { code: '9900', createdAt: new Date().toISOString(), usedCount: 0 }
-            ];
-        }
-        
-        function saveCodes() {
-            localStorage.setItem('quiz_codes', JSON.stringify(validCodes));
+
+        // LeanCloud 配置（与 admin.html 共享同一云端数据库）
+        const LC_CONFIG = {
+            appId: 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz',
+            appKey: 'qRUw6afI4c1m5eHgpPG1fUrM',
+            serverURL: 'https://rxjtmrun.lc-cn-n1-shared.com'
+        };
+
+        // ========== LeanCloud API ==========
+        async function lcRequest(method, endpoint, data = null) {
+            const url = `${LC_CONFIG.serverURL}/1.1${endpoint}`;
+            const options = {
+                method: method,
+                headers: {
+                    'X-LC-Id': LC_CONFIG.appId,
+                    'X-LC-Key': LC_CONFIG.appKey,
+                    'Content-Type': 'application/json'
+                }
+            };
+            if (data) options.body = JSON.stringify(data);
+            const response = await fetch(url, options);
+            if (!response.ok) throw new Error(`API ${response.status}`);
+            return response.json();
         }
         
         // ========== 五行数据 ==========
@@ -1236,9 +1057,6 @@
                 if (e.key === 'Enter') checkPassword();
             });
             
-            document.getElementById('admin-password-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') checkAdminPassword();
-            });
         });
 
         function initSelects() {
@@ -1262,134 +1080,53 @@
             }
         }
 
-        // ========== 管理员功能 ==========
-        function checkAdminPassword() {
-            const password = document.getElementById('admin-password-input').value;
-            const errorEl = document.getElementById('admin-error');
-            const inputEl = document.getElementById('admin-password-input');
-            
-            if (password === ADMIN_PASSWORD) {
-                errorEl.style.display = 'none';
-                showPage('page-admin-dashboard');
-                renderCodeList();
-            } else {
-                errorEl.style.display = 'block';
-                inputEl.classList.add('shake');
-                setTimeout(() => inputEl.classList.remove('shake'), 300);
-            }
-        }
 
-        function renderCodeList() {
-            const codeList = document.getElementById('code-list');
-            const totalCodes = document.getElementById('total-codes');
-            
-            totalCodes.textContent = validCodes.length;
-            
-            if (validCodes.length === 0) {
-                codeList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📭</div>
-                        <div>暂无验证码</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            codeList.innerHTML = validCodes.map((item, index) => {
-                const date = new Date(item.createdAt);
-                const dateStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
-                
-                return `
-                    <div class="code-item">
-                        <div class="code-info">
-                            <div class="code-value">${item.code}</div>
-                            <div class="code-meta">创建于 ${dateStr} · 已使用 ${item.usedCount || 0} 次</div>
-                        </div>
-                        <div class="code-actions">
-                            <button class="btn-small btn-copy" onclick="copyCode('${item.code}')">复制</button>
-                            <button class="btn-small btn-delete" onclick="deleteCode(${index})">删除</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function addCode() {
-            const input = document.getElementById('new-code-input');
-            const code = input.value.trim();
-            const successEl = document.getElementById('add-success');
-            const errorEl = document.getElementById('add-error');
-            
-            successEl.style.display = 'none';
-            errorEl.style.display = 'none';
-            
-            if (!code) {
-                errorEl.textContent = '请输入验证码';
-                errorEl.style.display = 'block';
-                return;
-            }
-            
-            if (code.length < 4) {
-                errorEl.textContent = '验证码至少4位';
-                errorEl.style.display = 'block';
-                return;
-            }
-            
-            if (validCodes.find(c => c.code === code)) {
-                errorEl.textContent = '验证码已存在';
-                errorEl.style.display = 'block';
-                return;
-            }
-            
-            validCodes.push({
-                code: code,
-                createdAt: new Date().toISOString(),
-                usedCount: 0
-            });
-            
-            saveCodes();
-            input.value = '';
-            successEl.style.display = 'block';
-            renderCodeList();
-            
-            setTimeout(() => {
-                successEl.style.display = 'none';
-            }, 3000);
-        }
-
-        function deleteCode(index) {
-            if (confirm('确定要删除这个验证码吗?')) {
-                validCodes.splice(index, 1);
-                saveCodes();
-                renderCodeList();
-            }
-        }
-
-        function copyCode(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                alert(`验证码 ${code} 已复制到剪贴板!`);
-            }).catch(() => {
-                prompt('请手动复制验证码:', code);
-            });
-        }
-
-        // ========== 用户验证 ==========
-        function checkPassword() {
-            const password = document.getElementById('password-input').value;
+        // ========== 用户验证（云端） ==========
+        async function checkPassword() {
+            const input = document.getElementById('password-input');
+            const password = input.value.trim();
             const errorEl = document.getElementById('password-error');
-            const inputEl = document.getElementById('password-input');
-            
-            const codeObj = validCodes.find(c => c.code === password);
-            
-            if (codeObj) {
-                errorEl.style.display = 'none';
-                codeObj.usedCount = (codeObj.usedCount || 0) + 1;
-                saveCodes();
-                showPage('page-birthdate');
-            } else {
+
+            if (!password) return;
+
+            // 禁用按钮防止重复提交
+            const btn = document.querySelector('#page-password .btn-primary');
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            input.disabled = true;
+
+            errorEl.style.display = 'none';
+
+            try {
+                // 查询云端: where code = input AND used = false
+                const result = await lcRequest('GET',
+                    `/classes/VerificationCode?where=${encodeURIComponent(JSON.stringify({ code: password, used: false }))}&limit=1`
+                );
+
+                const match = result.results && result.results[0];
+
+                if (match) {
+                    // 找到未使用的验证码 → 标记为已使用
+                    await lcRequest('PUT', `/classes/VerificationCode/${match.objectId}`, {
+                        used: true,
+                        usedAt: { __type: 'Date', iso: new Date().toISOString() }
+                    });
+                    // 验证通过，跳转
+                    showPage('page-birthdate');
+                } else {
+                    // 未找到或已使用
+                    errorEl.style.display = 'block';
+                    input.classList.add('shake');
+                    setTimeout(() => input.classList.remove('shake'), 300);
+                }
+            } catch (e) {
+                console.error('验证请求失败:', e);
+                errorEl.textContent = '网络错误，请重试';
                 errorEl.style.display = 'block';
-                inputEl.classList.add('shake');
-                setTimeout(() => inputEl.classList.remove('shake'), 300);
+            } finally {
+                btn.disabled = false;
+                btn.style.opacity = '';
+                input.disabled = false;
             }
         }
 
