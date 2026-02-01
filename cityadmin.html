@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>验证码管理后台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf9f7;
+            --bg-secondary: #ffffff;
+            --text-primary: #2d2a26;
+            --text-secondary: #6b6560;
+            --text-muted: #9a958f;
+            --accent-purple: #7c5ce0;
+            --accent-blue: #4a90d9;
+            --border: #e5e2dd;
+            --shadow: 0 4px 24px rgba(0,0,0,0.06);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            flex: 1;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
+        }
+
+        .icon-wrapper {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px auto 24px;
+            font-size: 32px;
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.3);
+        }
+
+        .page-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            color: #f97316;
+            margin-bottom: 12px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .emoji {
+            font-size: 18px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .password-input {
+            text-align: center;
+            font-size: 24px;
+            letter-spacing: 8px;
+            font-weight: 600;
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background: #3b82f6;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .stats-number {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stats-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .add-code-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .add-code-form input {
+            flex: 1;
+        }
+
+        .code-list {
+            margin-top: 16px;
+        }
+
+        .code-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-info {
+            flex: 1;
+        }
+
+        .code-value {
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            color: #f97316;
+            margin-bottom: 4px;
+        }
+
+        .code-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .error-text {
+            color: #ef4444;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .success-text {
+            color: #10b981;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: auto;
+            padding: 20px 0;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border-left: 3px solid #f97316;
+        }
+
+        .info-box .title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f97316;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-box .text {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Page -->
+        <div class="page active" id="page-login">
+            <div class="icon-wrapper">
+                🔐
+            </div>
+            <h1 class="page-title">管理后台</h1>
+            <p class="page-subtitle">验证码管理系统</p>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span class="emoji">🔑</span>
+                    管理员登录
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <input type="password" id="admin-password-input" class="password-input" placeholder="••••••" maxlength="8">
+                    <p class="password-hint">请输入管理员密码</p>
+                    <p class="error-text" id="admin-error" style="display: none;">密码错误,请重试</p>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <div class="title">⚠️ 安全提示</div>
+                <div class="text">这是管理后台页面,请勿将此页面地址分享给普通用户。请妥善保管管理员密码。</div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="checkAdminPassword()">
+                → 登录管理后台
+            </button>
+            
+            <p class="footer-text">城市测验 · 管理后台</p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="page" id="page-dashboard">
+            <div class="icon-wrapper">
+                ⚙️
+            </div>
+            <h1 class="page-title">验证码管理</h1>
+            <p class="page-subtitle">管理测验访问验证码</p>
+            
+            <div class="stats-card">
+                <div class="stats-number" id="total-codes">0</div>
+                <div class="stats-label">当前有效验证码数量</div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span class="emoji">➕</span>
+                    添加新验证码
+                </div>
+                <div class="add-code-form">
+                    <input type="text" id="new-code-input" placeholder="输入4-8位验证码" maxlength="8">
+                    <button class="btn-small btn-success" onclick="addCode()">添加</button>
+                </div>
+                <p class="success-text" id="add-success" style="display: none;">✓ 验证码添加成功!</p>
+                <p class="error-text" id="add-error" style="display: none;"></p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">
+                    <span class="emoji">📋</span>
+                    验证码列表
+                </div>
+                <div class="code-list" id="code-list">
+                    <!-- Codes will be inserted here -->
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="logout()">
+                🚪 退出登录
+            </button>
+            
+            <p class="footer-text">城市测验 · 管理后台</p>
+        </div>
+    </div>
+
+    <script>
+        // ========== 配置 ==========
+        const ADMIN_PASSWORD = 'admin888'; // 管理员密码
+        
+        // ========== 数据存储 ==========
+        let validCodes = loadCodes();
+        
+        function loadCodes() {
+            const saved = localStorage.getItem('quiz_codes');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            // 默认验证码
+            return [
+                { code: '9900', createdAt: new Date().toISOString(), usedCount: 0 }
+            ];
+        }
+        
+        function saveCodes() {
+            localStorage.setItem('quiz_codes', JSON.stringify(validCodes));
+        }
+        
+        // ========== 初始化 ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('admin-password-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkAdminPassword();
+            });
+            
+            document.getElementById('new-code-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') addCode();
+            });
+        });
+
+        // ========== 登录验证 ==========
+        function checkAdminPassword() {
+            const password = document.getElementById('admin-password-input').value;
+            const errorEl = document.getElementById('admin-error');
+            const inputEl = document.getElementById('admin-password-input');
+            
+            if (password === ADMIN_PASSWORD) {
+                errorEl.style.display = 'none';
+                showPage('page-dashboard');
+                renderCodeList();
+            } else {
+                errorEl.style.display = 'block';
+                inputEl.classList.add('shake');
+                setTimeout(() => inputEl.classList.remove('shake'), 300);
+            }
+        }
+
+        function logout() {
+            document.getElementById('admin-password-input').value = '';
+            showPage('page-login');
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // ========== 验证码管理 ==========
+        function renderCodeList() {
+            const codeList = document.getElementById('code-list');
+            const totalCodes = document.getElementById('total-codes');
+            
+            totalCodes.textContent = validCodes.length;
+            
+            if (validCodes.length === 0) {
+                codeList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <div>暂无验证码</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            codeList.innerHTML = validCodes.map((item, index) => {
+                const date = new Date(item.createdAt);
+                const dateStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+                
+                return `
+                    <div class="code-item">
+                        <div class="code-info">
+                            <div class="code-value">${item.code}</div>
+                            <div class="code-meta">创建于 ${dateStr} · 已使用 ${item.usedCount || 0} 次</div>
+                        </div>
+                        <div class="code-actions">
+                            <button class="btn-small btn-copy" onclick="copyCode('${item.code}')">复制</button>
+                            <button class="btn-small btn-delete" onclick="deleteCode(${index})">删除</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addCode() {
+            const input = document.getElementById('new-code-input');
+            const code = input.value.trim();
+            const successEl = document.getElementById('add-success');
+            const errorEl = document.getElementById('add-error');
+            
+            successEl.style.display = 'none';
+            errorEl.style.display = 'none';
+            
+            if (!code) {
+                errorEl.textContent = '请输入验证码';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            if (code.length < 4) {
+                errorEl.textContent = '验证码至少4位';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            if (validCodes.find(c => c.code === code)) {
+                errorEl.textContent = '验证码已存在';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            validCodes.push({
+                code: code,
+                createdAt: new Date().toISOString(),
+                usedCount: 0
+            });
+            
+            saveCodes();
+            input.value = '';
+            successEl.style.display = 'block';
+            renderCodeList();
+            
+            setTimeout(() => {
+                successEl.style.display = 'none';
+            }, 3000);
+        }
+
+        function deleteCode(index) {
+            if (confirm('确定要删除这个验证码吗?')) {
+                validCodes.splice(index, 1);
+                saveCodes();
+                renderCodeList();
+            }
+        }
+
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert(`验证码 ${code} 已复制到剪贴板!`);
+            }).catch(() => {
+                prompt('请手动复制验证码:', code);
+            });
+        }
+    </script>
+</body>
+</html>
