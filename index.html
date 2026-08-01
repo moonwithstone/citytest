@@ -103,20 +103,20 @@
         /* ========== 装饰线标题 ========== */
         .deco-title {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
         }
         .deco-title .en {
             font-family: 'Noto Serif SC', serif;
             font-style: italic;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-gold);
             letter-spacing: 3px;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         .deco-title .main {
             font-family: 'Noto Serif SC', serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
             line-height: 1.3;
@@ -160,6 +160,29 @@
             color: var(--text-secondary);
             line-height: 1.8;
         }
+        .card-desc {
+            font-size: 14px;
+            color: #6B5A4E;
+            line-height: 2;
+        }
+
+        /* ========== 性格解读分隔线 ========== */
+        .section-divider {
+            text-align: center;
+            margin: 20px 0 16px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 13px;
+            color: #A89888;
+            letter-spacing: 2px;
+        }
+        .section-divider .line {
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: rgba(185,160,130,0.2);
+            vertical-align: middle;
+            margin: 0 10px;
+        }
 
         /* ========== 表单 ========== */
         .form-label {
@@ -189,8 +212,8 @@
         select {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 38px;
+            background-position: right 8px center;
+            padding-right: 26px;
         }
         select:focus, input:focus {
             outline: none;
@@ -296,10 +319,10 @@
 
         /* ========== 五行结果页 ========== */
         .wuxing-circle {
-            width: 160px; height: 160px;
+            width: 100px; height: 100px;
             border-radius: 50%;
             background: linear-gradient(135deg, #F5EDE6 0%, #EDE0D4 50%, #E8D5C4 100%);
-            margin: 24px auto;
+            margin: 10px auto;
             display: flex; align-items: center; justify-content: center;
             position: relative;
             box-shadow: 0 4px 24px rgba(201,169,110,0.15), inset 0 2px 8px rgba(255,255,255,0.5);
@@ -307,20 +330,21 @@
         .wuxing-circle::before {
             content: '';
             position: absolute;
-            inset: 8px;
+            inset: 6px;
             border-radius: 50%;
             border: 1.5px dashed rgba(201,169,110,0.3);
         }
         .wuxing-circle-inner {
-            font-size: 64px;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
         .wuxing-gan-label {
             text-align: center;
             font-size: 13px;
             color: var(--text-muted);
             letter-spacing: 2px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         .wuxing-gan-label .gan {
             font-family: 'Noto Serif SC', serif;
@@ -330,80 +354,80 @@
         .wuxing-name-result {
             text-align: center;
             font-family: 'Noto Serif SC', serif;
-            font-size: 32px;
+            font-size: 26px;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .wuxing-name-result .element-name {
             font-family: 'Noto Serif SC', serif;
             font-style: italic;
-            font-size: 22px;
+            font-size: 18px;
             color: var(--accent-pink);
             margin-left: 4px;
         }
         .wuxing-traits {
             text-align: center;
-            font-size: 15px;
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 16px;
+            margin-bottom: 6px;
             letter-spacing: 4px;
         }
         .wuxing-desc-text {
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            line-height: 1.8;
-            padding: 0 16px;
+            line-height: 1.6;
+            padding: 0 12px;
         }
 
         /* 相生相克 */
         .relation-section {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
-            padding: 20px 16px;
-            margin-bottom: 16px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
         }
         .relation-section-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             text-align: center;
         }
         .relation-text {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--text-muted);
             line-height: 1.8;
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
         .relation-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
         .relation-item {
             background: var(--bg-warm);
             border-radius: 12px;
-            padding: 14px 10px;
+            padding: 10px 6px;
             text-align: center;
             border: 1px solid var(--border-light);
         }
         .relation-item-title {
             font-size: 11px;
             color: var(--text-muted);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .relation-flow {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
         .element-dot {
-            width: 28px; height: 28px; border-radius: 50%;
+            width: 24px; height: 24px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 12px; color: white; font-weight: 500;
+            font-size: 11px; color: white; font-weight: 500;
         }
         .element-dot.wood { background: var(--wood); }
         .element-dot.fire { background: var(--fire); }
@@ -600,13 +624,12 @@
         }
         .keyword-tag {
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
+            background: rgba(124,179,66,0.08);
+            color: #558B2F;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 16px;
             font-weight: 500;
-            background: var(--bg-card-warm);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
         }
 
         /* 五行得分 */
@@ -614,7 +637,7 @@
             text-align: center;
             font-size: 14px;
             color: var(--text-muted);
-            margin: 24px 0 16px;
+            margin: 8px 0 12px;
             font-family: 'Noto Serif SC', serif;
             letter-spacing: 2px;
         }
@@ -702,9 +725,9 @@
         /* ========== 响应式 ========== */
         @media (max-width: 380px) {
             .city-name-result { font-size: 34px; letter-spacing: 2px; }
-            .deco-title .main { font-size: 24px; }
-            .wuxing-name-result { font-size: 28px; }
-            .wuxing-circle { width: 140px; height: 140px; }
+            .deco-title .main { font-size: 22px; }
+            .wuxing-name-result { font-size: 24px; }
+            .wuxing-circle { width: 90px; height: 90px; }
         }
     </style>
 </head>
@@ -712,15 +735,10 @@
     <div class="container">
         <!-- ========== Page 0: Password ========== -->
         <div class="page active" id="page-password">
-            <div class="brand-header">
-                <div class="brand-badge">五</div>
-                <span class="brand-text">五行城市</span>
-                <span class="brand-text-en">Five Elements City</span>
-            </div>
             <div class="deco-title">
-                <span class="en">for her · 城市命格测试</span>
+                <span class="en">city destiny test</span>
                 <div class="main">找到属于你的<span class="highlight">城</span></div>
-                <span class="sub">A City That Matches Your Soul</span>
+                <span class="sub">a city that matches your soul</span>
             </div>
 
             <div class="card">
@@ -746,15 +764,10 @@
 
         <!-- ========== Page 1: Birth Date ========== -->
         <div class="page" id="page-birthdate">
-            <div class="brand-header">
-                <div class="brand-badge">五</div>
-                <span class="brand-text">五行城市</span>
-                <span class="brand-text-en">Five Elements City</span>
-            </div>
             <div class="deco-title">
                 <span class="en">your birth date</span>
                 <div class="main">你的出生日期</div>
-                <span class="sub">Based on your birth date</span>
+                <span class="sub">based on your birth date</span>
             </div>
 
             <div class="card card-warm">
@@ -791,31 +804,23 @@
 
         <!-- ========== Page 2: Wuxing Result ========== -->
         <div class="page" id="page-wuxing">
-            <div class="brand-header">
-                <div class="brand-badge">五</div>
-                <span class="brand-text">五行城市</span>
-                <span class="brand-text-en">Five Elements City</span>
-            </div>
             <div class="deco-title">
                 <span class="en">your innate element</span>
                 <div class="main">你的<span style="color:var(--accent-pink);">先天五行</span></div>
-                <span class="sub">Based on your birth date</span>
+                <span class="sub">based on your birth date</span>
             </div>
 
             <div class="wuxing-circle">
-                <div class="wuxing-circle-inner" id="wuxing-icon">⚙️</div>
+                <img class="wuxing-circle-inner" id="wuxing-icon" src="" alt="五行属性">
             </div>
 
-            <div class="wuxing-gan-label">
-                <span class="gan" id="wuxing-gan">辛</span> · <span style="font-style:italic;">Metal</span>
-            </div>
             <div class="wuxing-name-result" id="wuxing-name">
-                辛金命 <span class="element-name">Metal</span>
+                辛金命 <span class="element-name" id="wuxing-element-name">Metal</span>
             </div>
             <div class="wuxing-traits" id="wuxing-traits">秩序 · 决断 · 精致</div>
             <div class="wuxing-desc-text" id="wuxing-desc">金属性代表秩序、执行与决断力，重视规则与结果。</div>
 
-            <div class="relation-section" style="margin-top:24px;">
+            <div class="relation-section">
                 <div class="relation-section-title">☯️ 五行相生相克</div>
                 <div class="relation-text">相生：木生火，火生土，土生金，金生水，水生木。<br>相克：木克土，土克水，水克火，火克金，金克木。</div>
                 <div class="relation-grid">
@@ -867,7 +872,10 @@
                 <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
             </div>
 
-            <div style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:4px; font-family:'Noto Serif SC',serif; letter-spacing:1px;">personality quiz</div>
+            <div class="deco-title">
+                <span class="en">personality quiz</span>
+                <div class="main">性格<span class="highlight">测验</span></div>
+            </div>
 
             <div class="card" style="flex: 1;">
                 <div class="quiz-counter" id="quiz-counter">1 / 49</div>
@@ -880,12 +888,6 @@
 
         <!-- ========== Page 5: Result ========== -->
         <div class="page" id="page-result">
-            <div class="brand-header">
-                <div class="brand-badge">五</div>
-                <span class="brand-text">五行城市</span>
-                <span class="brand-text-en">Five Elements City</span>
-            </div>
-
             <div class="result-hero">
                 <span class="en-label">your destiny city</span>
                 <div class="main-title">你的五行城市</div>
@@ -901,14 +903,10 @@
                 <div class="city-tagline-result" id="result-tagline">江南水乡，人间天堂</div>
             </div>
 
-            <!-- 五行匹配度柱状条 -->
-            <div class="score-section-title">
-                <span class="line"></span>
-                五行匹配度
-                <span class="line"></span>
-            </div>
+            <!-- 五行匹配度 -->
             <div class="score-card">
                 <div class="element-badge" id="result-element-badge">🌲 木属性 · Wood</div>
+                <div class="card-title">⚖️ 五行匹配度</div>
 
                 <div class="score-row" id="score-row-wood">
                     <div class="score-label">🌲 木</div>
@@ -947,29 +945,25 @@
                 </div>
             </div>
 
-            <!-- 综合匹配说明 -->
-            <div class="match-card">
-                <div class="match-card-title">⚖️ 综合匹配说明</div>
-                <p class="match-card-text">最终结果结合了您的先天五行（占 40%）和性格测验五行（占 60%），为您提供最平衡的城市建议。<br><br>考虑到您的先天属性与后天性格特征的结合，这个城市既能补足您命理的不足，又能匹配您的性格特点。</p>
-            </div>
-
             <!-- 为什么是XX -->
-            <div class="card">
+            <div class="card card-warm">
                 <div class="card-title" id="why-title">💫 为什么是杭州？</div>
-                <p class="card-text" id="why-text">这座城市与您的属性高度契合，能够为您提供良好的发展机遇和生活环境。</p>
+                <p class="card-desc" id="why-text">这座城市与您的属性高度契合，能够为您提供良好的发展机遇和生活环境。</p>
                 <div class="keywords" id="keywords-container"></div>
             </div>
 
+            <div class="section-divider"><span class="line"></span>性格解读<span class="line"></span></div>
+
             <!-- 性格画像 -->
-            <div class="card card-warm">
+            <div class="card">
                 <div class="card-title">🧠 你的性格画像</div>
-                <p class="card-text" id="personality-text">你是一个富有生命力的人，像春天的树木一样不断向上生长。</p>
+                <p class="card-desc" id="personality-text">你是一个富有生命力的人，像春天的树木一样不断向上生长。</p>
             </div>
 
             <!-- 给你的话 -->
             <div class="card card-warm">
                 <div class="card-title">💡 给你的话</div>
-                <p class="card-text" id="advice-text">就像树木需要扎根才能茁壮，你也要在稳健的基础上追求成长。</p>
+                <p class="card-desc" id="advice-text">就像树木需要扎根才能茁壮，你也要在稳健的基础上追求成长。</p>
             </div>
 
             <button class="btn btn-secondary" onclick="restartQuiz()" style="margin-bottom:10px;">
@@ -1026,11 +1020,11 @@
 
         // ========== 五行数据 ==========
         const wuxingData = {
-            wood: { name: '木', color: '#7CB342', emoji: '🌲', tianGan: ['甲', '乙'], traits: '生长 · 创新 · 仁爱' },
-            fire: { name: '火', color: '#E57373', emoji: '🔥', tianGan: ['丙', '丁'], traits: '热情 · 活力 · 领导力' },
-            earth: { name: '土', color: '#BCAAA4', emoji: '🏔️', tianGan: ['戊', '己'], traits: '稳重 · 包容 · 信任' },
-            metal: { name: '金', color: '#90A4AE', emoji: '⚙️', tianGan: ['庚', '辛'], traits: '秩序 · 决断 · 精致' },
-            water: { name: '水', color: '#64B5F6', emoji: '💧', tianGan: ['壬', '癸'], traits: '智慧 · 灵活 · 适应' }
+            wood: { name: '木', color: '#7CB342', icon: '<svg viewBox="0 0 48 48" width="36" height="36"><circle cx="24" cy="24" r="22" fill="none" stroke="#7CB342" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="24" font-family="serif" fill="#7CB342">木</text></svg>', tianGan: ['甲', '乙'], traits: '生长 · 创新 · 仁爱' },
+            fire: { name: '火', color: '#E57373', icon: '<svg viewBox="0 0 48 48" width="36" height="36"><circle cx="24" cy="24" r="22" fill="none" stroke="#E57373" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="24" font-family="serif" fill="#E57373">火</text></svg>', tianGan: ['丙', '丁'], traits: '热情 · 活力 · 领导力' },
+            earth: { name: '土', color: '#BCAAA4', icon: '<svg viewBox="0 0 48 48" width="36" height="36"><circle cx="24" cy="24" r="22" fill="none" stroke="#BCAAA4" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="24" font-family="serif" fill="#BCAAA4">土</text></svg>', tianGan: ['戊', '己'], traits: '稳重 · 包容 · 信任' },
+            metal: { name: '金', color: '#90A4AE', icon: '<svg viewBox="0 0 48 48" width="36" height="36"><circle cx="24" cy="24" r="22" fill="none" stroke="#90A4AE" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="24" font-family="serif" fill="#90A4AE">金</text></svg>', tianGan: ['庚', '辛'], traits: '秩序 · 决断 · 精致' },
+            water: { name: '水', color: '#64B5F6', icon: '<svg viewBox="0 0 48 48" width="36" height="36"><circle cx="24" cy="24" r="22" fill="none" stroke="#64B5F6" stroke-width="1.5"/><text x="24" y="32" text-anchor="middle" font-size="24" font-family="serif" fill="#64B5F6">水</text></svg>', tianGan: ['壬', '癸'], traits: '智慧 · 灵活 · 适应' }
         };
 
         const tianGanWuxing = {
@@ -1235,17 +1229,17 @@
             const monthSelect = document.getElementById('birth-month');
             const daySelect = document.getElementById('birth-day');
 
-            yearSelect.innerHTML = '<option value="">选择年份</option>';
+            yearSelect.innerHTML = '<option value="">选择年</option>';
             for (let year = 2015; year >= 1950; year--) {
                 yearSelect.innerHTML += `<option value="${year}">${year}年</option>`;
             }
 
-            monthSelect.innerHTML = '<option value="">选择月份</option>';
+            monthSelect.innerHTML = '<option value="">选择月</option>';
             for (let month = 1; month <= 12; month++) {
                 monthSelect.innerHTML += `<option value="${month}">${month}月</option>`;
             }
 
-            daySelect.innerHTML = '<option value="">选择日期</option>';
+            daySelect.innerHTML = '<option value="">选择日</option>';
             for (let day = 1; day <= 31; day++) {
                 daySelect.innerHTML += `<option value="${day}">${day}日</option>`;
             }
@@ -1332,9 +1326,10 @@
             userWuxing = tianGanWuxing[tianGan];
 
             const wuxing = wuxingData[userWuxing];
-            document.getElementById('wuxing-icon').textContent = wuxing.emoji;
-            document.getElementById('wuxing-gan').textContent = tianGan;
-            document.getElementById('wuxing-name').innerHTML = `${tianGan}${wuxing.name}命 <span class="element-name">${wuxing.name}</span>`;
+            const elementEnMap = { wood: 'Wood', fire: 'Fire', earth: 'Earth', metal: 'Metal', water: 'Water' };
+            document.getElementById('wuxing-icon').src = 'wuxing/' + wuxing.name + '.jpg';
+            document.getElementById('wuxing-name').innerHTML = `${tianGan}${wuxing.name}命 <span class="element-name" id="wuxing-element-name">${wuxing.name}</span>`;
+            document.getElementById('wuxing-element-name').textContent = elementEnMap[userWuxing];
             document.getElementById('wuxing-traits').textContent = wuxing.traits;
             document.getElementById('wuxing-desc').textContent = wuxingDescriptions[userWuxing];
 
@@ -1427,7 +1422,7 @@
             // 属性徽章
             const elementEn = { wood: 'Wood', fire: 'Fire', earth: 'Earth', metal: 'Metal', water: 'Water' };
             const badge = document.getElementById('result-element-badge');
-            badge.textContent = `${wuxingData[dominantElement].emoji} ${wuxingData[dominantElement].name}属性 · ${elementEn[dominantElement]}`;
+            badge.textContent = `${wuxingData[dominantElement].name}属性 · ${elementEn[dominantElement]}`;
             badge.style.background = wuxingData[dominantElement].color + '14';
             badge.style.color = wuxingData[dominantElement].color;
 
