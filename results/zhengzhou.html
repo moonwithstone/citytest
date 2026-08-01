@@ -6,160 +6,278 @@
     <title>郑州 - 城市匹配测验结果</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #FAF5F0;
+            --bg-warm: #F5EDE6;
+            --bg-card: #FFFFFF;
+            --bg-card-warm: #FFF9F4;
+            --text-primary: #3D2B1F;
+            --text-secondary: #6B5A4E;
+            --text-muted: #A89888;
+            --text-gold: #C9A96E;
+            --text-gold-dark: #B8956A;
+            --accent-pink: #C97F7F;
+            --accent-pink-dark: #B87070;
+            --accent-pink-light: #E8C4C4;
+            --accent-gold: #C9A96E;
+            --accent-gold-light: #D4C19A;
+            --wood: #7CB342;
+            --fire: #E57373;
+            --earth: #BCAAA4;
+            --metal: #90A4AE;
+            --water: #64B5F6;
+            --border: rgba(185, 160, 130, 0.12);
+            --border-light: rgba(185, 160, 130, 0.06);
+            --shadow: 0 2px 16px rgba(61, 43, 31, 0.04);
+            --shadow-hover: 0 4px 24px rgba(61, 43, 31, 0.08);
+            --radius: 16px;
+            --radius-lg: 20px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Noto Sans SC', -apple-system, sans-serif;
-            background: #FAF5F0;
-            color: #3D2B1F;
+            background: var(--bg);
+            color: var(--text-primary);
             min-height: 100vh;
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
         }
-        .container { max-width: 480px; margin: 0 auto; padding: 0 20px 32px; }
 
-        /* 品牌头部 */
-        .brand-header {
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px; padding: 24px 0 8px;
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 20px 32px;
+            min-height: 100vh;
         }
-        .brand-badge {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: #C97F7F; color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 13px; font-family: 'Noto Serif SC', serif;
+
+        /* ========== 最终结果页 ========== */
+        .result-hero {
+            text-align: center;
+            padding: 0 0 8px;
         }
-        .brand-text { font-family: 'Noto Serif SC', serif; font-size: 14px; color: #6B5A4E; }
-        .brand-text-en { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 11px; color: #C9A96E; letter-spacing: 2px; }
+        .result-hero .en-label {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 11px;
+            color: var(--text-gold);
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .result-hero .main-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .result-hero .sub-title {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
 
-        /* 装饰标题 */
-        .deco-title { text-align: center; margin-bottom: 20px; }
-        .deco-title .en { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 11px; color: #C9A96E; letter-spacing: 3px; display: block; margin-bottom: 6px; }
-        .deco-title .main { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; color: #3D2B1F; }
-        .deco-title .main .highlight { color: #C97F7F; }
-        .deco-title .sub { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 12px; color: #A89888; letter-spacing: 2px; margin-top: 6px; display: block; }
-
-        /* 城市展示区 */
-        .city-showcase { text-align: center; padding: 8px 0 16px; }
+        .city-circle-wrap {
+            text-align: center;
+            margin: 20px 0;
+        }
         .best-match-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #D4837F 0%, #C4736F 100%);
-            color: white; font-size: 11px; padding: 4px 14px;
-            border-radius: 20px; margin-bottom: 14px; font-weight: 500; letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-pink-dark) 100%);
+            color: white;
+            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
         }
         .city-circle {
-            width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 14px;
-            display: flex; align-items: center; justify-content: center; font-size: 64px;
-            position: relative; overflow: hidden;
-            background: linear-gradient(135deg, #BCAAA422 0%, #BCAAA444 100%);
-            box-shadow: 0 6px 24px rgba(61,43,31,0.08);
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(61,43,31,0.1);
+            overflow: hidden;
         }
         .city-circle img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         .city-circle::after {
-            content: ''; position: absolute; inset: -4px; border-radius: 50%;
-            border: 2px solid rgba(201,169,110,0.3);
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold-light);
+            opacity: 0.5;
         }
-        .city-name-zh { font-family: 'Noto Serif SC', serif; font-size: 38px; font-weight: 900; color: #3D2B1F; letter-spacing: 6px; margin-bottom: 4px; }
-        .city-tagline { font-family: 'Noto Serif SC', serif; font-size: 14px; color: #C97F7F; letter-spacing: 2px; margin-bottom: 8px; }
-        .city-subtitle { font-size: 12px; color: #A89888; letter-spacing: 1px; }
+        .city-name-result {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: 4px;
+        }
+        .city-tagline-result {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 14px;
+            color: var(--accent-pink);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
 
-        /* 卡片 */
+        /* ========== 卡�� ========== */
         .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .card-warm {
+            background: var(--bg-card-warm);
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-desc {
+            font-size: 14px;
+            color: #6B5A4E;
+            line-height: 2;
+        }
+
+        /* ========== 五行得分柱状条 ========== */
+        .element-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(124,179,66,0.08); color: #558B2F;
+            font-size: 13px; font-weight: 600; padding: 6px 14px;
+            border-radius: 12px; margin-bottom: 14px;
+        }
+        .score-card {
             background: #FFFFFF; border-radius: 20px; padding: 24px;
             margin-bottom: 14px; box-shadow: 0 2px 16px rgba(61,43,31,0.04);
             border: 1px solid rgba(185,160,130,0.1);
         }
-        .card-warm { background: #FFF9F4; }
-        .card-title {
-            font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 700;
-            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
-        }
-        .card-desc { font-size: 14px; color: #6B5A4E; line-height: 2; }
-
-        /* 五行标签 */
-        .element-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(188,170,164,0.08); color: #8D6E63;
-            font-size: 13px; font-weight: 600; padding: 6px 14px;
-            border-radius: 12px; margin-bottom: 12px;
-        }
-
-        /* 关键词 */
-        .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-        .keyword {
-            background: rgba(188,170,164,0.08); color: #8D6E63;
-            font-size: 12px; padding: 5px 12px; border-radius: 16px; font-weight: 500;
-        }
-
-        /* 五行得分条 */
         .score-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
-        .score-label { width: 52px; font-size: 12px; color: #A89888; text-align: right; flex-shrink: 0; }
+        .score-label { width: 52px; font-size: 12px; color: #A89888; text-align: right; flex-shrink: 0; font-weight: 500; }
         .score-bar-wrap { flex: 1; height: 6px; background: #F3EDE6; border-radius: 3px; overflow: hidden; }
         .score-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
         .score-val { width: 32px; font-size: 12px; font-weight: 600; color: #3D2B1F; text-align: left; flex-shrink: 0; }
-        .score-row.active .score-val { color: #8D6E63; font-size: 14px; }
-        .score-row.active .score-label { font-weight: 600; color: #8D6E63; }
+        .score-row.active .score-val { font-size: 14px; }
+        .score-row.active .score-label { font-weight: 600; }
 
-        /* 竖线装饰引用 */
-        .quote { position: relative; padding-left: 14px; border-left: 3px solid #BCAAA4; }
+        /* ========== 关键词标签 ========== */
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .keyword-tag {
+            display: inline-block;
+            background: rgba(124,179,66,0.08);
+            color: #558B2F;
+            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-weight: 500;
+        }
 
-        /* 按钮 */
+        /* ========== 性格解读分隔线 ========== */
+        .section-divider {
+            text-align: center;
+            margin: 0 0 16px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+        .section-divider .line {
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: rgba(185,160,130,0.2);
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+
+        /* ========== 按钮 ========== */
         .btn {
-            width: 100%; padding: 16px 24px; border: none; border-radius: 16px;
-            font-size: 15px; font-weight: 600; font-family: inherit;
-            cursor: pointer; transition: all 0.25s ease;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             text-decoration: none;
         }
         .btn-primary {
             background: linear-gradient(135deg, #D4837F 0%, #C4736F 100%);
-            color: white; box-shadow: 0 4px 16px rgba(196,115,111,0.25);
+            color: white;
+            box-shadow: 0 4px 16px rgba(196,115,111,0.25);
+            font-weight: 600;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,115,111,0.35); }
-        .btn-secondary {
-            background: #FFFFFF; color: #6B5A4E; border: 1px solid rgba(185,160,130,0.15);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(196,115,111,0.35);
         }
-        .btn-secondary:hover { background: #FFF9F4; }
+        .btn-primary:active { transform: translateY(0); }
 
-        /* 底部分隔线 */
-        .section-divider {
-            text-align: center; margin: 20px 0 16px;
-            font-family: 'Noto Serif SC', serif; font-size: 13px; color: #A89888;
-            letter-spacing: 2px;
+        /* ========== 底部 ========== */
+        .footer-text {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: auto;
+            padding: 20px 0;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 1px;
         }
-        .section-divider .line {
-            display: inline-block; width: 40px; height: 1px;
-            background: rgba(185,160,130,0.2); vertical-align: middle; margin: 0 10px;
-        }
-
-        /* 底部 */
-        .footer { text-align: center; padding: 16px 0; color: #C9B8A8; font-size: 11px; font-family: 'Noto Serif SC', serif; letter-spacing: 1px; }
 
         @media (max-width: 380px) {
-            .city-name-zh { font-size: 32px; letter-spacing: 4px; }
-            .city-circle { width: 130px; height: 130px; }
-            .deco-title .main { font-size: 20px; }
+            .city-name-result { font-size: 32px; letter-spacing: 4px; }
+            .city-circle { width: 140px; height: 140px; }
+            .result-hero .main-title { font-size: 20px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="deco-title">
-            <span class="en">your destiny city</span>
-            <div class="main">你的五行<span class="highlight">城市</span></div>
-            <span class="sub">based on your element & personality</span>
+        <div class="result-hero">
+            <span class="en-label">your destiny city</span>
+            <div class="main-title">你的五行城市</div>
+            <span class="sub-title">based on your element & personality</span>
         </div>
 
-        <div class="city-showcase">
+        <div class="city-circle-wrap">
             <div class="best-match-badge">⭐ 最佳匹配</div>
             <div class="city-circle"><img src="../images/zhengzhou.jpg" alt="郑州"></div>
-            <div class="city-name-zh">郑州</div>
-            <div class="city-tagline">天地之中，通达八方</div>
-            <div class="city-subtitle">中原腹地 · 米字枢纽 · 华夏之源</div>
+            <div class="city-name-result">郑州</div>
+            <div class="city-tagline-result">天地之中，通达八方</div>
         </div>
 
-        <div class="card">
+        <div class="score-card">
             <div class="element-badge">🏔️ 土属性 · Earth</div>
             <div class="card-title">⚖️ 五行匹配度</div>
             
@@ -202,13 +320,13 @@
 
         <div class="card card-warm">
             <div class="card-title">💫 为什么是郑州？</div>
-            <div class="card-desc quote">郑州位于天地之中，是土属性最本真的地理表达。作为中国铁路的「心脏」，这座城市承载着四通八达的使命。你和郑州一样，天生具备连接与承载的力量——在你的世界里，你既是稳定的锚点，也是串联一切的枢纽。</div>
+            <div class="card-desc">郑州位于天地之中，是土属性最本真的地理表达。作为中国铁路的「心脏」，这座城市承载着四通八达的使命。你和郑州一样，天生具备连接与承载的力量——在你的世界里，你既是稳定的锚点，也是串联一切的枢纽。</div>
             <div class="keywords">
-                <span class="keyword">🚄 高铁枢纽</span>
-<span class="keyword">🏛️ 河南博物院</span>
-<span class="keyword">⛰️ 嵩山少林</span>
-<span class="keyword">🏙️ CBD</span>
-<span class="keyword">🌾 黄河</span>
+                <span class="keyword-tag">🚄 高铁枢纽</span>
+<span class="keyword-tag">🏛️ 河南博物院</span>
+<span class="keyword-tag">⛰️ 嵩山少林</span>
+<span class="keyword-tag">🏙️ CBD</span>
+<span class="keyword-tag">🌾 黄河</span>
             </div>
         </div>
 
@@ -229,9 +347,7 @@
             🔄 再测一次
         </a>
 
-        <div class="footer">
-            <p>五行城市 · 找到属于你的城</p>
-        </div>
+        <p class="footer-text">小红书：温蒂AI分享</p>
     </div>
 </body>
 </html>
