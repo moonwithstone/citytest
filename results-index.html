@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五行城市 · 全部结果预览</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', -apple-system, sans-serif; background: #FAF5F0; color: #3D2B1F; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #3D2B1F 0%, #5C4033 100%); color: white; padding: 40px 24px; text-align: center; }
+        .header h1 { font-family: 'Noto Serif SC', serif; font-size: 26px; margin-bottom: 6px; }
+        .header p { font-size: 13px; opacity: 0.7; font-family: 'Noto Serif SC', serif; font-style: italic; letter-spacing: 1px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 24px 20px 40px; }
+        .section { margin-bottom: 32px; }
+        .section-title { font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .bar { width: 100%; height: 3px; border-radius: 2px; margin-bottom: 14px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+        .city-link { display: flex; align-items: center; gap: 10px; padding: 14px 14px; border-radius: 14px;
+            background: white; border: 1px solid rgba(185,160,130,0.1); text-decoration: none; color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s; }
+        .city-link:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(61,43,31,0.06); }
+        .city-link .emoji {{ font-size: 22px; }}
+        .city-link .thumbnail {{
+            width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+            margin-bottom: 6px; box-shadow: 0 2px 8px rgba(61,43,31,0.1);
+        }}
+        .city-link .name {{ font-size: 14px; font-weight: 600; }}
+        .back-link { display: block; text-align: center; margin-top: 24px; color: #C97F7F; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏙️ 五行城市 · 全部结果</h1>
+        <p>5 种五行 × 5 个城市 = 25 个专属结果</p>
+    </div>
+    <div class="container">
+
+    <div class="section">
+        <div class="section-title">🌲 木属性 · 5个城市</div>
+        <div class="bar" style="background:#7CB342;"></div>
+        <div class="grid">
+
+            <a href="results/hangzhou.html" class="city-link">
+                <img src="images/hangzhou.jpg" alt="杭州" class="thumbnail">
+                <span class="name">杭州</span>
+            </a>
+            <a href="results/chengdu.html" class="city-link">
+                <img src="images/chengdu.jpg" alt="成都" class="thumbnail">
+                <span class="name">成都</span>
+            </a>
+            <a href="results/kunming.html" class="city-link">
+                <img src="images/kunming.jpg" alt="昆明" class="thumbnail">
+                <span class="name">昆明</span>
+            </a>
+            <a href="results/nanning.html" class="city-link">
+                <img src="images/nanning.jpg" alt="南宁" class="thumbnail">
+                <span class="name">南宁</span>
+            </a>
+            <a href="results/guilin.html" class="city-link">
+                <img src="images/guilin.jpg" alt="桂林" class="thumbnail">
+                <span class="name">桂林</span>
+            </a>
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title">🔥 火属性 · 5个城市</div>
+        <div class="bar" style="background:#E57373;"></div>
+        <div class="grid">
+
+            <a href="results/shenzhen.html" class="city-link">
+                <img src="images/shenzhen.jpg" alt="深圳" class="thumbnail">
+                <span class="name">深圳</span>
+            </a>
+            <a href="results/guangzhou.html" class="city-link">
+                <img src="images/guangzhou.jpg" alt="广州" class="thumbnail">
+                <span class="name">广州</span>
+            </a>
+            <a href="results/chongqing.html" class="city-link">
+                <img src="images/chongqing.jpg" alt="重庆" class="thumbnail">
+                <span class="name">重庆</span>
+            </a>
+            <a href="results/changsha.html" class="city-link">
+                <img src="images/changsha.jpg" alt="长沙" class="thumbnail">
+                <span class="name">长沙</span>
+            </a>
+            <a href="results/xiamen.html" class="city-link">
+                <img src="images/xiamen.jpg" alt="厦门" class="thumbnail">
+                <span class="name">厦门</span>
+            </a>
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title">🏔️ 土属性 · 5个城市</div>
+        <div class="bar" style="background:#BCAAA4;"></div>
+        <div class="grid">
+
+            <a href="results/xian.html" class="city-link">
+                <img src="images/xian.jpg" alt="西安" class="thumbnail">
+                <span class="name">西安</span>
+            </a>
+            <a href="results/zhengzhou.html" class="city-link">
+                <img src="images/zhengzhou.jpg" alt="郑州" class="thumbnail">
+                <span class="name">郑州</span>
+            </a>
+            <a href="results/luoyang.html" class="city-link">
+                <img src="images/luoyang.jpg" alt="洛阳" class="thumbnail">
+                <span class="name">洛阳</span>
+            </a>
+            <a href="results/taiyuan.html" class="city-link">
+                <img src="images/taiyuan.jpg" alt="太原" class="thumbnail">
+                <span class="name">太原</span>
+            </a>
+            <a href="results/shijiazhuang.html" class="city-link">
+                <img src="images/shijiazhuang.jpg" alt="石家庄" class="thumbnail">
+                <span class="name">石家庄</span>
+            </a>
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title">⚙️ 金属性 · 5个城市</div>
+        <div class="bar" style="background:#90A4AE;"></div>
+        <div class="grid">
+
+            <a href="results/beijing.html" class="city-link">
+                <img src="images/beijing.jpg" alt="北京" class="thumbnail">
+                <span class="name">北京</span>
+            </a>
+            <a href="results/shanghai.html" class="city-link">
+                <img src="images/shanghai.jpg" alt="上海" class="thumbnail">
+                <span class="name">上海</span>
+            </a>
+            <a href="results/tianjin.html" class="city-link">
+                <img src="images/tianjin.jpg" alt="天津" class="thumbnail">
+                <span class="name">天津</span>
+            </a>
+            <a href="results/shenyang.html" class="city-link">
+                <img src="images/shenyang.jpg" alt="沈阳" class="thumbnail">
+                <span class="name">沈阳</span>
+            </a>
+            <a href="results/dalian.html" class="city-link">
+                <img src="images/dalian.jpg" alt="大连" class="thumbnail">
+                <span class="name">大连</span>
+            </a>
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title">💧 水属性 · 5个城市</div>
+        <div class="bar" style="background:#64B5F6;"></div>
+        <div class="grid">
+
+            <a href="results/suzhou.html" class="city-link">
+                <img src="images/suzhou.jpg" alt="苏州" class="thumbnail">
+                <span class="name">苏州</span>
+            </a>
+            <a href="results/nanjing.html" class="city-link">
+                <img src="images/nanjing.jpg" alt="南京" class="thumbnail">
+                <span class="name">南京</span>
+            </a>
+            <a href="results/wuhan.html" class="city-link">
+                <img src="images/wuhan.jpg" alt="武汉" class="thumbnail">
+                <span class="name">武汉</span>
+            </a>
+            <a href="results/qingdao.html" class="city-link">
+                <img src="images/qingdao.jpg" alt="青岛" class="thumbnail">
+                <span class="name">青岛</span>
+            </a>
+            <a href="results/ningbo.html" class="city-link">
+                <img src="images/ningbo.jpg" alt="宁波" class="thumbnail">
+                <span class="name">宁波</span>
+            </a>
+        </div>
+    </div>
+        <a href="index.html" class="back-link">← 返回测验首页</a>
+    </div>
+</body>
+</html>

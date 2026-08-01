@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市匹配测验 - 全部结果展示</title>
+    <style>
+        :root {
+            --wood: #4ade80;
+            --fire: #f87171;
+            --earth: #fbbf24;
+            --metal: #94a3b8;
+            --water: #60a5fa;
+            --bg: #f8f7f4;
+            --card-bg: #ffffff;
+            --text: #2d2a26;
+            --text-secondary: #6b6560;
+            --text-muted: #9a958f;
+            --border: #e5e2dd;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans SC', 'PingFang SC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-chip {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-chip strong {
+            font-size: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 20px;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+            padding-left: 4px;
+        }
+
+        .element-bar {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 24px;
+        }
+
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .city-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 28px 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: default;
+        }
+
+        .city-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+
+        .city-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .city-emoji {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .city-name-en {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .city-name-zh {
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .city-name-zh.wood { color: #16a34a; }
+        .city-name-zh.fire { color: #dc2626; }
+        .city-name-zh.earth { color: #d97706; }
+        .city-name-zh.metal { color: #64748b; }
+        .city-name-zh.water { color: #2563eb; }
+
+        .city-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .tag {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .tag.element-tag {
+            color: white;
+        }
+
+        .tag.feature-tag {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .city-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        /* Match flow diagram */
+        .flow-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+            margin-bottom: 48px;
+        }
+
+        .flow-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+            border-radius: 16px;
+            padding: 20px 24px;
+            text-align: center;
+            min-width: 160px;
+            border: 2px solid #dbeafe;
+        }
+
+        .flow-step .step-num {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .flow-step .step-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .flow-step .step-detail {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .flow-arrow-icon {
+            font-size: 24px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 640px) {
+            .cities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .stats-bar {
+                gap: 12px;
+            }
+
+            .stat-chip {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+
+            .flow-diagram {
+                flex-direction: column;
+            }
+
+            .flow-arrow-icon {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏙️ 城市匹配测验 · 全部结果</h1>
+        <p class="subtitle">综合先天五行（40%）+ 性格测验（60%）= 匹配城市</p>
+        <div class="stats-bar">
+            <div class="stat-chip">🔢 <strong>5</strong> 种五行属性</div>
+            <div class="stat-chip">🏙️ <strong>25</strong> 个城市结果</div>
+            <div class="stat-chip">📝 <strong>49</strong> 道性格题</div>
+            <div class="stat-chip">📅 <strong>10</strong> 种天干命格</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 匹配流程图 -->
+        <div class="flow-section">
+            <div class="flow-title">⚖️ 匹配流程</div>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-num">Step 1</div>
+                    <div class="step-title">📅 输入出生日期</div>
+                    <div class="step-detail">年份天干定五行</div>
+                </div>
+                <span class="flow-arrow-icon">→</span>
+                <div class="flow-step">
+                    <div class="step-num">Step 2</div>
+                    <div class="step-title">☯️ 计算先天命格</div>
+                    <div class="step-detail">甲~癸 十天干</div>
+                </div>
+                <span class="flow-arrow-icon">→</span>
+                <div class="flow-step">
+                    <div class="step-num">Step 3</div>
+                    <div class="step-title">📝 49道性格测验</div>
+                    <div class="step-detail">五选一 · 即时计分</div>
+                </div>
+                <span class="flow-arrow-icon">→</span>
+                <div class="flow-step">
+                    <div class="step-num">Step 4</div>
+                    <div class="step-title">⚖️ 加权综合</div>
+                    <div class="step-detail">40%先天 + 60%后天</div>
+                </div>
+                <span class="flow-arrow-icon">→</span>
+                <div class="flow-step" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #bbf7d0;">
+                    <div class="step-num" style="color: #16a34a;">Result</div>
+                    <div class="step-title">🎯 匹配城市</div>
+                    <div class="step-detail">25个城市之一</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图例 -->
+        <div class="legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--wood);"></span> 木属性 (5城)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--fire);"></span> 火属性 (5城)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--earth);"></span> 土属性 (5城)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--metal);"></span> 金属性 (5城)</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--water);"></span> 水属性 (5城)</div>
+        </div>
+
+        <!-- ========== 木属性 ========== -->
+        <div class="section" id="wood">
+            <div class="section-title">
+                <span style="font-size:32px;">🌲</span>
+                <span class="city-name-zh wood">木属性 · 5个城市</span>
+            </div>
+            <p class="section-desc">
+                天干：甲、乙 | 特质：生长、创新、仁爱、自由、开拓 — 木属性适合追求创意成长、生态与发展的人
+            </p>
+            <div class="element-bar" style="background: var(--wood);"></div>
+            <div class="cities-grid" id="wood-cities"></div>
+        </div>
+
+        <!-- ========== 火属性 ========== -->
+        <div class="section" id="fire">
+            <div class="section-title">
+                <span style="font-size:32px;">🔥</span>
+                <span class="city-name-zh fire">火属性 · 5个城市</span>
+            </div>
+            <p class="section-desc">
+                天干：丙、丁 | 特质：热情、活力、礼仪、领导力 — 火属性适合追求激情、表达和影响力的人
+            </p>
+            <div class="element-bar" style="background: var(--fire);"></div>
+            <div class="cities-grid" id="fire-cities"></div>
+        </div>
+
+        <!-- ========== 土属性 ========== -->
+        <div class="section" id="earth">
+            <div class="section-title">
+                <span style="font-size:32px;">🏔️</span>
+                <span class="city-name-zh earth">土属性 · 5个城市</span>
+            </div>
+            <p class="section-desc">
+                天干：戊、己 | 特质：稳重、包容、信任、务实 — 土属性适合追求稳定、传承和脚踏实地的人
+            </p>
+            <div class="element-bar" style="background: var(--earth);"></div>
+            <div class="cities-grid" id="earth-cities"></div>
+        </div>
+
+        <!-- ========== 金属性 ========== -->
+        <div class="section" id="metal">
+            <div class="section-title">
+                <span style="font-size:32px;">⚙️</span>
+                <span class="city-name-zh metal">金属性 · 5个城市</span>
+            </div>
+            <p class="section-desc">
+                天干：庚、辛 | 特质：秩序、执行、决断、精确 — 金属性适合追求效率、规则和成就的人
+            </p>
+            <div class="element-bar" style="background: var(--metal);"></div>
+            <div class="cities-grid" id="metal-cities"></div>
+        </div>
+
+        <!-- ========== 水属性 ========== -->
+        <div class="section" id="water">
+            <div class="section-title">
+                <span style="font-size:32px;">💧</span>
+                <span class="city-name-zh water">水属性 · 5个城市</span>
+            </div>
+            <p class="section-desc">
+                天干：壬、癸 | 特质：智慧、灵活、适应、沟通 — 水属性适合追求变通、创意和自由的人
+            </p>
+            <div class="element-bar" style="background: var(--water);"></div>
+            <div class="cities-grid" id="water-cities"></div>
+        </div>
+    </div>
+
+    <script>
+        const cityData = {
+            wood: {
+                name: '木',
+                emoji: '🌲',
+                color: '#4ade80',
+                colorHex: '#16a34a',
+                cities: [
+                    { name: '杭州', emoji: '🏯', tags: ['西湖', '互联网', '创业'], desc: '江南水乡，绿意盎然，互联网创新之都。杭州的灵动与创新气质与木属性的生长、开拓精神完美契合。西湖的秀美与阿里巴巴的创业精神，都体现了木的生机与发展。' },
+                    { name: '成都', emoji: '🐼', tags: ['天府', '美食', '休闲'], desc: '天府之国，草木繁茂，包容开放。成都的闲适与创意氛围与木属性的自由发展特质相得益彰。这里既有传统文化的滋养，又有新兴产业的蓬勃发展。' },
+                    { name: '昆明', emoji: '🌸', tags: ['春城', '生态', '宜居'], desc: '四季如春，花团锦簇，生态宜居。昆明的温润气候与木属性的生长特质高度契合。这座春城以其独特的自然环境，为追求成长的人提供理想的发展土壤。' },
+                    { name: '南宁', emoji: '🌴', tags: ['绿城', '东盟', '热带'], desc: '绿城之称，热带风情，生机勃勃。南宁的亚热带气候孕育了丰富的植被，与木属性的生命力完美呼应。这里是东盟开放门户，充满发展机遇。' },
+                    { name: '桂林', emoji: '⛰️', tags: ['山水', '艺术', '诗意'], desc: '山水甲天下，自然与人文交融。桂林的奇山秀水体现了木属性的自然之美与生态和谐。这里适合追求诗意生活与艺术创作的人。' }
+                ]
+            },
+            fire: {
+                name: '火',
+                emoji: '🔥',
+                color: '#f87171',
+                colorHex: '#dc2626',
+                cities: [
+                    { name: '深圳', emoji: '🚀', tags: ['创新', '科技', '年轻'], desc: '创新之城，活力四射，改革开放的前沿阵地。深圳的热情与拼搏精神与火属性的能量、领导力高度契合。这座年轻的城市燃烧着梦想与激情。' },
+                    { name: '广州', emoji: '🦁', tags: ['商都', '美食', '活力'], desc: '千年商都，热情好客，美食之都。广州的商业活力与包容热情与火属性的感染力相得益彰。这里是敢为人先、勇于创新的热土。' },
+                    { name: '重庆', emoji: '🌶️', tags: ['山城', '火锅', '8D魔幻'], desc: '山城火锅，热辣豪爽，立体都市。重庆的火辣性格与火属性的热情特质完美契合。这座8D魔幻城市充满了生命的热度与活力。' },
+                    { name: '长沙', emoji: '🎬', tags: ['娱乐', '敢为', '青年'], desc: '娱乐之都，敢为人先，湖湘文化发源地。长沙的娱乐精神与创新活力与火属性的表达欲相呼应。这里是年轻人实现梦想的舞台。' },
+                    { name: '厦门', emoji: '🏖️', tags: ['海岛', '文艺', '浪漫'], desc: '海滨花园，文艺浪漫，温暖宜人。厦门的热带风情与文艺气息与火属性的热情浪漫相契合。这座海岛城市散发着温暖的光芒。' }
+                ]
+            },
+            earth: {
+                name: '土',
+                emoji: '🏔️',
+                color: '#fbbf24',
+                colorHex: '#d97706',
+                cities: [
+                    { name: '西安', emoji: '🏛️', tags: ['古都', '历史', '文化'], desc: '十三朝古都，历史厚重，文化底蕴深厚。西安的稳重与传承与土属性的包容、信任特质完美契合。这座城市承载着中华文明的根脉。' },
+                    { name: '郑州', emoji: '🚄', tags: ['中原', '枢纽', '务实'], desc: '中原之地，土气厚重，交通枢纽。郑州的务实与包容与土属性的稳重特质高度契合。这里是中原腹地，四通八达的国家中心城市。' },
+                    { name: '洛阳', emoji: '🌸', tags: ['神都', '牡丹', '千年'], desc: '神都洛阳，牡丹花城，千年帝都。洛阳的历史积淀与土属性的厚重包容相呼应。这座古都见证了中华文明的辉煌与传承。' },
+                    { name: '太原', emoji: '⛏️', tags: ['晋商', '诚信', '能源'], desc: '晋商故里，诚信为本，煤炭之都。太原的朴实与诚信与土属性的值得信赖特质相契合。这座城市有着深厚的商业传统与文化底蕴。' },
+                    { name: '石家庄', emoji: '🏭', tags: ['华北', '踏实', '枢纽'], desc: '华北重镇，踏实肯干，革命圣地。石家庄的务实作风与土属性的脚踏实地精神相呼应。这里是连接南北的重要枢纽城市。' }
+                ]
+            },
+            metal: {
+                name: '金',
+                emoji: '⚙️',
+                color: '#94a3b8',
+                colorHex: '#64748b',
+                cities: [
+                    { name: '北京', emoji: '🏛️', tags: ['首都', '政治', '文化'], desc: '首都之城，秩序严明，政治文化中心。北京的规范与权威与金属性的秩序、执行力高度契合。这座城市汇聚了国家的决策与资源。' },
+                    { name: '上海', emoji: '🌃', tags: ['魔都', '国际', '金融'], desc: '魔都繁华，精致高效，国际金融中心。上海的精明与效率与金属性的分析、决断力相呼应。这座城市是商业与时尚的完美结合。' },
+                    { name: '天津', emoji: '🚢', tags: ['港口', '工业', '规矩'], desc: '北方港口，规矩方正，工业重镇。天津的规矩与务实与金属性的秩序特质相契合。这座城市有着独特的津味文化与工业底蕴。' },
+                    { name: '沈阳', emoji: '⚙️', tags: ['工业', '东北', '振兴'], desc: '共和国长子，工业基础雄厚，东北振兴龙头。沈阳的工业精神与金属性的执行力相呼应。这座城市承载着东北工业的辉煌与复兴。' },
+                    { name: '大连', emoji: '🌊', tags: ['明珠', '海滨', '浪漫'], desc: '北方明珠，海滨城市，浪漫之都。大连的精致与秩序与金属性的规范特质相契合。这座城市兼具北方的大气与海滨的浪漫。' }
+                ]
+            },
+            water: {
+                name: '水',
+                emoji: '💧',
+                color: '#60a5fa',
+                colorHex: '#2563eb',
+                cities: [
+                    { name: '苏州', emoji: '🏡', tags: ['园林', '温婉', '江南'], desc: '东方威尼斯，水乡园林，温婉灵动。苏州的灵秀与智慧与水属性的适应力、洞察力高度契合。这座城市是传统与现代的完美融合。' },
+                    { name: '南京', emoji: '🏯', tags: ['古都', '江水', '文化'], desc: '六朝古都，江水环绕，文化荟萃。南京的深沉与智慧与水属性的沉稳通达相呼应。这座城市见证了历史的沧桑与文明的传承。' },
+                    { name: '武汉', emoji: '🌉', tags: ['九省通衢', '两江', '英雄'], desc: '九省通衢，两江交汇，英雄之城。武汉的通达与活力与水属性的流动、变通特质相契合。这座城市是中部崛起的核心引擎。' },
+                    { name: '青岛', emoji: '⛵', tags: ['碧海', '帆船', '欧韵'], desc: '红瓦绿树，碧海蓝天，帆船之都。青岛的海洋气息与水属性的灵活、开放特质高度契合。这座城市兼具欧陆风情与东方神韵。' },
+                    { name: '宁波', emoji: '🚢', tags: ['东海', '港口', '商贸'], desc: '东海之滨，港通天下，商贸重镇。宁波的灵活与商业智慧与水属性的变通、沟通能力相呼应。这座城市有着悠久的海上丝绸之路传统。' }
+                ]
+            }
+        };
+
+        function createCityCard(city, element) {
+            return `
+                <div class="city-card">
+                    <div class="city-card-header">
+                        <div class="city-emoji" style="background: ${element.color};">${city.emoji}</div>
+                        <div>
+                            <div class="city-name-en">${city.name} · ${element.name}属性</div>
+                            <div class="city-name-zh ${getElementKey(element.color)}">${city.name}</div>
+                        </div>
+                    </div>
+                    <div class="city-tags">
+                        <span class="tag element-tag" style="background: ${element.color};">${element.emoji} ${element.name}</span>
+                        ${city.tags.map(t => `<span class="tag feature-tag">${t}</span>`).join('')}
+                    </div>
+                    <p class="city-desc">${city.desc}</p>
+                </div>
+            `;
+        }
+
+        function getElementKey(color) {
+            if (color === '#4ade80') return 'wood';
+            if (color === '#f87171') return 'fire';
+            if (color === '#fbbf24') return 'earth';
+            if (color === '#94a3b8') return 'metal';
+            if (color === '#60a5fa') return 'water';
+        }
+
+        // 渲染所有城市
+        for (const [key, element] of Object.entries(cityData)) {
+            const container = document.getElementById(`${key}-cities`);
+            container.innerHTML = element.cities.map(city => createCityCard(city, element)).join('');
+        }
+    </script>
+</body>
+</html>

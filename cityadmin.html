@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>城市测验 - 管理后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ========== 登录页面样式 ========== */
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 40px);
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .login-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .login-input:focus {
+            border-color: #667eea;
+        }
+
+        .login-input.error {
+            border-color: #e74c3c;
+            background: #fdf2f2;
+        }
+
+        .login-error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* ========== 管理页面样式 ========== */
+        .admin-page {
+            display: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title span {
+            font-size: 24px;
+        }
+
+        /* 统计信息 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* 快速生成 */
+        .quick-generate {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-small {
+            width: 80px;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .input-small:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 按钮 */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219a52;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* 搜索和筛选 */
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* 验证码列表 */
+        .code-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .code-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .code-item:hover {
+            background: #f9f9f9;
+        }
+
+        .code-item:last-child {
+            border-bottom: none;
+        }
+
+        .code-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .code-text {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            background: #f5f5f5;
+            padding: 5px 12px;
+            border-radius: 6px;
+        }
+
+        .code-status {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .code-status.available {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .code-status.used {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .code-result {
+            font-size: 12px;
+            color: #666;
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .code-time {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* 导出区域 */
+        .export-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .export-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .export-textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 12px;
+            resize: none;
+            background: white;
+        }
+
+        /* Toast 提示 */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: #27ae60;
+        }
+
+        .toast.error {
+            background: #e74c3c;
+        }
+
+        /* 加载状态 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .code-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .code-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .quick-generate {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .logout-btn {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== 登录页面 ========== -->
+    <div class="login-page" id="loginPage">
+        <div class="login-card">
+            <div class="login-icon">🔐</div>
+            <h2 class="login-title">管理员登录</h2>
+            <p class="login-subtitle">请输入管理员密码</p>
+            
+            <input type="password" class="login-input" id="passwordInput" placeholder="请输入密码" autocomplete="off">
+            <p class="login-error" id="loginError">密码错误</p>
+            
+            <button class="login-btn" onclick="login()">登 录</button>
+        </div>
+    </div>
+
+    <!-- ========== 管理页面 ========== -->
+    <div class="admin-page" id="adminPage">
+        <button class="logout-btn" onclick="logout()">退出登录</button>
+        
+        <div class="container">
+            <div class="header">
+                <h1>⚙️ 城市测验管理后台</h1>
+                <p>管理城市测验访问验证码</p>
+            </div>
+
+            <!-- 统计卡片 -->
+            <div class="card">
+                <div class="card-title"><span>📊</span> 数据统计</div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalCount">-</div>
+                        <div class="stat-label">总验证码数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="usedCount">-</div>
+                        <div class="stat-label">已使用</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="availableCount">-</div>
+                        <div class="stat-label">剩余可用</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 添加验证码 -->
+            <div class="card">
+                <div class="card-title"><span>➕</span> 生成验证码</div>
+                
+                <div class="quick-generate">
+                    <div class="input-group">
+                        <span class="input-label">生成数量</span>
+                        <input type="number" class="input-small" id="generateCount" value="10" min="1" max="100">
+                        <span class="input-label">个</span>
+                    </div>
+                    <button class="btn btn-success" onclick="generateCodes()">
+                        🎲 随机生成
+                    </button>
+                    <button class="btn btn-secondary" onclick="refreshList()">
+                        🔄 刷新列表
+                    </button>
+                </div>
+            </div>
+
+            <!-- 验证码列表 -->
+            <div class="card">
+                <div class="card-title"><span>📋</span> 验证码列表</div>
+                
+                <div class="filter-bar">
+                    <input type="text" class="search-input" id="searchInput" placeholder="搜索验证码..." oninput="filterCodes()">
+                    <select class="filter-select" id="statusFilter" onchange="filterCodes()">
+                        <option value="all">全部状态</option>
+                        <option value="available">未使用</option>
+                        <option value="used">已使用</option>
+                    </select>
+                </div>
+
+                <div class="code-list" id="codeList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⏳</div>
+                        <p>加载中...</p>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <div class="export-title">📤 未使用的验证码（可复制分发给用户）</div>
+                    <textarea class="export-textarea" id="exportArea" readonly onclick="this.select()" placeholder="点击刷新列表后显示"></textarea>
+                </div>
+
+                <div class="btn-group" style="margin-top: 15px;">
+                    <button class="btn btn-danger" onclick="deleteUsedCodes()">
+                        🗑️ 清理已使用
+                    </button>
+                    <button class="btn btn-danger" onclick="deleteAllCodes()">
+                        ⚠️ 清空所有
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ╔════════════════════════════════════════════════════════════════════════╗
+        // ║                                                                        ║
+        // ║                     🔧 管理员配置区域 🔧                                 ║
+        // ║                                                                        ║
+        // ╚════════════════════════════════════════════════════════════════════════╝
+        
+        // ⚠️ 重要：请修改下面的密码！改成你自己的密码！
+        const ADMIN_PASSWORD = 'wangyue888';  // ← 改成你自己的密码
+        
+        // LeanCloud 配置（与 index.html 保持一致）
+        const LC_CONFIG = {
+            appId: 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz',
+            appKey: 'qRUw6afI4c1m5eHgpPG1fUrM',
+            serverURL: 'https://rxjtmrun.lc-cn-n1-shared.com'
+        };
+
+        // ╔════════════════════════════════════════════════════════════════════════╗
+        // ║                         配置区域结束                                    ║
+        // ╚════════════════════════════════════════════════════════════════════════╝
+
+        // 存储所有验证码数据
+        let allCodes = [];
+
+        // ========== 登录功能 ==========
+        
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            const errorEl = document.getElementById('loginError');
+            const inputEl = document.getElementById('passwordInput');
+            
+            if (password === ADMIN_PASSWORD) {
+                // 登录成功，保存登录状态（24小时有效）
+                const expiry = Date.now() + 24 * 60 * 60 * 1000;
+                localStorage.setItem('admin_login', JSON.stringify({ expiry }));
+                
+                showAdminPage();
+            } else {
+                // 密码错误
+                errorEl.classList.add('show');
+                inputEl.classList.add('error');
+                inputEl.value = '';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_login');
+            document.getElementById('adminPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('passwordInput').classList.remove('error');
+            document.getElementById('loginError').classList.remove('show');
+        }
+
+        function checkLogin() {
+            const loginData = localStorage.getItem('admin_login');
+            if (loginData) {
+                const { expiry } = JSON.parse(loginData);
+                if (Date.now() < expiry) {
+                    showAdminPage();
+                    return;
+                }
+            }
+            // 未登录或已过期
+            document.getElementById('loginPage').style.display = 'flex';
+        }
+
+        function showAdminPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPage').style.display = 'block';
+            refreshList();
+        }
+
+        // ========== LeanCloud API ==========
+        
+        async function lcRequest(method, endpoint, data = null) {
+            const url = `${LC_CONFIG.serverURL}/1.1${endpoint}`;
+            const options = {
+                method: method,
+                headers: {
+                    'X-LC-Id': LC_CONFIG.appId,
+                    'X-LC-Key': LC_CONFIG.appKey,
+                    'Content-Type': 'application/json'
+                }
+            };
+            if (data) {
+                options.body = JSON.stringify(data);
+            }
+            const response = await fetch(url, options);
+            return response.json();
+        }
+
+        // 获取所有验证码
+        async function fetchAllCodes() {
+            const result = await lcRequest('GET', '/classes/VerificationCode?limit=1000&order=-createdAt');
+            return result.results || [];
+        }
+
+        // 批量创建验证码
+        async function createCodes(codes) {
+            const requests = codes.map(code => ({
+                method: 'POST',
+                path: '/1.1/classes/VerificationCode',
+                body: {
+                    code: code,
+                    used: false
+                }
+            }));
+            return lcRequest('POST', '/batch', { requests });
+        }
+
+        // 删除验证码
+        async function deleteCode(objectId) {
+            return lcRequest('DELETE', `/classes/VerificationCode/${objectId}`);
+        }
+
+        // 批量删除
+        async function deleteCodes(objectIds) {
+            const requests = objectIds.map(id => ({
+                method: 'DELETE',
+                path: `/1.1/classes/VerificationCode/${id}`
+            }));
+            return lcRequest('POST', '/batch', { requests });
+        }
+
+        // ========== UI 功能 ==========
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('show');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 生成随机验证码
+        function generateRandomCode() {
+            return String(Math.floor(Math.random() * 9000) + 1000);
+        }
+
+        // 生成验证码
+        async function generateCodes() {
+            const count = parseInt(document.getElementById('generateCount').value) || 10;
+            
+            if (count < 1 || count > 100) {
+                showToast('数量请在1-100之间', 'error');
+                return;
+            }
+
+            showLoading();
+            
+            try {
+                // 生成不重复的验证码
+                const existingCodes = new Set(allCodes.map(c => c.code));
+                const newCodes = [];
+                let attempts = 0;
+                
+                while (newCodes.length < count && attempts < count * 10) {
+                    const code = generateRandomCode();
+                    if (!existingCodes.has(code) && !newCodes.includes(code)) {
+                        newCodes.push(code);
+                    }
+                    attempts++;
+                }
+
+                if (newCodes.length === 0) {
+                    showToast('生成失败，请重试', 'error');
+                    return;
+                }
+
+                await createCodes(newCodes);
+                await refreshList();
+                showToast(`成功生成 ${newCodes.length} 个验证码`);
+                
+            } catch (error) {
+                console.error('生成失败:', error);
+                showToast('生成失败: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 刷新列表
+        async function refreshList() {
+            showLoading();
+            try {
+                allCodes = await fetchAllCodes();
+                updateUI();
+                showToast('刷新成功');
+            } catch (error) {
+                console.error('刷新失败:', error);
+                showToast('刷新失败', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 更新UI
+        function updateUI() {
+            updateStats();
+            filterCodes();
+            updateExport();
+        }
+
+        // 更新统计
+        function updateStats() {
+            const total = allCodes.length;
+            const used = allCodes.filter(c => c.used).length;
+            const available = total - used;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('usedCount').textContent = used;
+            document.getElementById('availableCount').textContent = available;
+        }
+
+        // 筛选验证码
+        function filterCodes() {
+            const searchTerm = document.getElementById('searchInput').value.toUpperCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            let filtered = allCodes;
+
+            if (searchTerm) {
+                filtered = filtered.filter(c => c.code.includes(searchTerm));
+            }
+
+            if (statusFilter === 'available') {
+                filtered = filtered.filter(c => !c.used);
+            } else if (statusFilter === 'used') {
+                filtered = filtered.filter(c => c.used);
+            }
+
+            renderCodeList(filtered);
+        }
+
+        // 渲染列表
+        function renderCodeList(codes) {
+            const list = document.getElementById('codeList');
+
+            if (codes.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>暂无验证码</p>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = codes.map(item => {
+                const statusClass = item.used ? 'used' : 'available';
+                const statusText = item.used ? '已使用' : '未使用';
+                
+                let resultBadge = '';
+                let timeBadge = '';
+                
+                if (item.result) {
+                    resultBadge = `<span class="code-result">结果: ${item.result.type}</span>`;
+                }
+                
+                if (item.usedAt) {
+                    const usedDate = new Date(item.usedAt.iso);
+                    timeBadge = `<span class="code-time">${usedDate.toLocaleString('zh-CN')}</span>`;
+                }
+
+                return `
+                    <div class="code-item">
+                        <div class="code-info">
+                            <span class="code-text">${item.code}</span>
+                            <span class="code-status ${statusClass}">${statusText}</span>
+                            ${resultBadge}
+                            ${timeBadge}
+                        </div>
+                        <div class="code-actions">
+                            <button class="btn btn-secondary btn-icon" onclick="copyCode('${item.code}')" title="复制">📋</button>
+                            <button class="btn btn-danger btn-icon" onclick="confirmDelete('${item.objectId}', '${item.code}')" title="删除">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 更新导出区域
+        function updateExport() {
+            const availableCodes = allCodes
+                .filter(c => !c.used)
+                .map(c => c.code);
+            
+            document.getElementById('exportArea').value = availableCodes.join('\n');
+        }
+
+        // 复制验证码
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showToast(`已复制: ${code}`);
+            });
+        }
+
+        // 确认删除
+        async function confirmDelete(objectId, code) {
+            if (!confirm(`确定要删除验证码 ${code} 吗？`)) return;
+            
+            showLoading();
+            try {
+                await deleteCode(objectId);
+                await refreshList();
+                showToast(`已删除: ${code}`);
+            } catch (error) {
+                showToast('删除失败', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 清理已使用
+        async function deleteUsedCodes() {
+            const usedCodes = allCodes.filter(c => c.used);
+            
+            if (usedCodes.length === 0) {
+                showToast('没有已使用的验证码', 'error');
+                return;
+            }
+
+            if (!confirm(`确定要删除 ${usedCodes.length} 个已使用的验证码吗？`)) return;
+
+            showLoading();
+            try {
+                await deleteCodes(usedCodes.map(c => c.objectId));
+                await refreshList();
+                showToast(`已清理 ${usedCodes.length} 个验证码`);
+            } catch (error) {
+                showToast('清理失败', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 清空所有
+        async function deleteAllCodes() {
+            if (allCodes.length === 0) {
+                showToast('没有验证码', 'error');
+                return;
+            }
+
+            if (!confirm(`⚠️ 确定要删除所有 ${allCodes.length} 个验证码吗？此操作不可恢复！`)) return;
+
+            showLoading();
+            try {
+                await deleteCodes(allCodes.map(c => c.objectId));
+                await refreshList();
+                showToast('已清空所有验证码');
+            } catch (error) {
+                showToast('清空失败', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 页面加载
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLogin();
+            
+            // 监听回车键登录
+            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+            
+            // 清除错误状态
+            document.getElementById('passwordInput').addEventListener('input', function() {
+                this.classList.remove('error');
+                document.getElementById('loginError').classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>

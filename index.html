@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五行城市 · 找到属于你的城</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF5F0;
+            --bg-warm: #F5EDE6;
+            --bg-card: #FFFFFF;
+            --bg-card-warm: #FFF9F4;
+            --text-primary: #3D2B1F;
+            --text-secondary: #6B5A4E;
+            --text-muted: #A89888;
+            --text-gold: #C9A96E;
+            --text-gold-dark: #B8956A;
+            --accent-pink: #C97F7F;
+            --accent-pink-dark: #B87070;
+            --accent-pink-light: #E8C4C4;
+            --accent-gold: #C9A96E;
+            --accent-gold-light: #D4C19A;
+            --wood: #7CB342;
+            --fire: #E57373;
+            --earth: #BCAAA4;
+            --metal: #90A4AE;
+            --water: #64B5F6;
+            --border: rgba(185, 160, 130, 0.12);
+            --border-light: rgba(185, 160, 130, 0.06);
+            --shadow: 0 2px 16px rgba(61, 43, 31, 0.04);
+            --shadow-hover: 0 4px 24px rgba(61, 43, 31, 0.08);
+            --radius: 16px;
+            --radius-lg: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+            padding-bottom: 32px;
+        }
+
+        .page.active { display: flex; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== 品牌头部 ========== */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 24px 0 12px;
+        }
+        .brand-badge {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            background: var(--accent-pink);
+            color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .brand-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .brand-text-en {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 11px;
+            color: var(--text-gold);
+            letter-spacing: 2px;
+            text-transform: capitalize;
+        }
+
+        /* ========== 装饰线标题 ========== */
+        .deco-title {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .deco-title .en {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--text-gold);
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .deco-title .main {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+        .deco-title .main .highlight {
+            color: var(--accent-pink);
+            font-weight: 900;
+        }
+        .deco-title .sub {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* ========== 卡片 ========== */
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .card-warm {
+            background: var(--bg-card-warm);
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ========== 表单 ========== */
+        .form-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .select-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        select, input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A89888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 38px;
+        }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent-pink-light);
+            box-shadow: 0 0 0 3px rgba(201,127,127,0.08);
+        }
+
+        /* ========== 按钮 ========== */
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #D4837F 0%, #C4736F 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(196,115,111,0.25);
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(196,115,111,0.35);
+        }
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: var(--bg-warm);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-pink);
+            border: 1.5px solid var(--accent-pink-light);
+        }
+        .btn-outline:hover {
+            background: rgba(201,127,127,0.04);
+        }
+
+        /* ========== 提示框 ========== */
+        .tip-box {
+            background: var(--bg-card-warm);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-light);
+        }
+        .tip-box .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-pink);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tip-box .text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ========== 密码输入 ========== */
+        .password-input {
+            text-align: center;
+            font-size: 22px;
+            letter-spacing: 8px;
+            font-weight: 600;
+        }
+        .password-hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+        }
+        .error-text {
+            color: #E57373;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .success-text {
+            color: #7CB342;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* ========== 五行结果页 ========== */
+        .wuxing-circle {
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #F5EDE6 0%, #EDE0D4 50%, #E8D5C4 100%);
+            margin: 24px auto;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 24px rgba(201,169,110,0.15), inset 0 2px 8px rgba(255,255,255,0.5);
+        }
+        .wuxing-circle::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(201,169,110,0.3);
+        }
+        .wuxing-circle-inner {
+            font-size: 64px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));
+        }
+        .wuxing-gan-label {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .wuxing-gan-label .gan {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 14px;
+            color: var(--text-gold);
+        }
+        .wuxing-name-result {
+            text-align: center;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .wuxing-name-result .element-name {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 22px;
+            color: var(--accent-pink);
+            margin-left: 4px;
+        }
+        .wuxing-traits {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            letter-spacing: 4px;
+        }
+        .wuxing-desc-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            padding: 0 16px;
+        }
+
+        /* 相生相克 */
+        .relation-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .relation-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .relation-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .relation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .relation-item {
+            background: var(--bg-warm);
+            border-radius: 12px;
+            padding: 14px 10px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+        .relation-item-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .relation-flow {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .element-dot {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: white; font-weight: 500;
+        }
+        .element-dot.wood { background: var(--wood); }
+        .element-dot.fire { background: var(--fire); }
+        .element-dot.earth { background: var(--earth); }
+        .element-dot.metal { background: var(--metal); }
+        .element-dot.water { background: var(--water); }
+        .flow-arrow { color: var(--text-muted); font-size: 12px; }
+
+        /* ========== 测验页 ========== */
+        .quiz-progress {
+            background: var(--border);
+            height: 3px;
+            border-radius: 2px;
+            margin: 20px 0 16px;
+            overflow: hidden;
+        }
+        .quiz-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-pink) 0%, var(--accent-gold) 100%);
+            transition: width 0.3s ease;
+        }
+        .quiz-counter {
+            font-size: 12px;
+            color: var(--text-gold);
+            font-weight: 500;
+            margin-bottom: 16px;
+            text-align: center;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 1px;
+        }
+        .quiz-question {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            text-align: center;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .quiz-option {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .quiz-option:hover {
+            border-color: var(--accent-pink-light);
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFF9F9 100%);
+            transform: translateX(3px);
+        }
+        .option-letter {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: var(--bg-warm);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 600;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .quiz-option:hover .option-letter {
+            background: var(--accent-pink);
+            color: white;
+        }
+        .option-text {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        /* ========== 最终结果页 ========== */
+        .result-hero {
+            text-align: center;
+            padding: 20px 0 8px;
+        }
+        .result-hero .en-label {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 11px;
+            color: var(--text-gold);
+            letter-spacing: 3px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .result-hero .main-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .result-hero .sub-title {
+            font-family: 'Noto Serif SC', serif;
+            font-style: italic;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .city-circle-wrap {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .best-match-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-pink-dark) 100%);
+            color: white;
+            font-size: 11px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+        .city-circle {
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(61,43,31,0.1);
+            overflow: hidden;
+        }
+        #city-circle-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .city-circle::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold-light);
+            opacity: 0.5;
+        }
+        .city-name-result {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            letter-spacing: 4px;
+        }
+        .city-tagline-result {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 14px;
+            color: var(--accent-pink);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .city-desc-result {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            padding: 0 8px;
+        }
+
+        /* ========== 五行得分柱状条 ========== */
+        .element-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(124,179,66,0.08); color: #558B2F;
+            font-size: 13px; font-weight: 600; padding: 6px 14px;
+            border-radius: 12px; margin-bottom: 14px;
+        }
+        .score-card {
+            background: #FFFFFF; border-radius: 20px; padding: 24px;
+            margin-bottom: 14px; box-shadow: 0 2px 16px rgba(61,43,31,0.04);
+            border: 1px solid rgba(185,160,130,0.1);
+        }
+        .score-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+        .score-label { width: 52px; font-size: 12px; color: #A89888; text-align: right; flex-shrink: 0; font-weight: 500; }
+        .score-bar-wrap { flex: 1; height: 6px; background: #F3EDE6; border-radius: 3px; overflow: hidden; }
+        .score-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+        .score-val { width: 32px; font-size: 12px; font-weight: 600; color: #3D2B1F; text-align: left; flex-shrink: 0; }
+        .score-row.active .score-val { font-size: 14px; }
+        .score-row.active .score-label { font-weight: 600; }
+
+        /* ========== 关键词标签 ========== */
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .keyword-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--bg-card-warm);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        /* 五行得分 */
+        .score-section-title {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 24px 0 16px;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 2px;
+        }
+        .score-section-title .line {
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: var(--border);
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+
+        /* 综合匹配说明 */
+        .match-card {
+            background: var(--bg-card-warm);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-light);
+        }
+        .match-card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .match-card-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        /* ========== 列表 ========== */
+        .info-list {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+        .info-list li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+
+        /* ========== 底部 ========== */
+        .footer-text {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: auto;
+            padding: 20px 0;
+            font-family: 'Noto Serif SC', serif;
+            letter-spacing: 1px;
+        }
+
+        /* ========== 加载动画 ========== */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== 动画 ========== */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.3s ease; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 380px) {
+            .city-name-result { font-size: 34px; letter-spacing: 2px; }
+            .deco-title .main { font-size: 24px; }
+            .wuxing-name-result { font-size: 28px; }
+            .wuxing-circle { width: 140px; height: 140px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ========== Page 0: Password ========== -->
+        <div class="page active" id="page-password">
+            <div class="brand-header">
+                <div class="brand-badge">五</div>
+                <span class="brand-text">五行城市</span>
+                <span class="brand-text-en">Five Elements City</span>
+            </div>
+            <div class="deco-title">
+                <span class="en">for her · 城市命格测试</span>
+                <div class="main">找到属于你的<span class="highlight">城</span></div>
+                <span class="sub">A City That Matches Your Soul</span>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🔑 输入校验码</div>
+                <div style="margin-bottom: 0;">
+                    <input type="password" id="password-input" class="password-input" placeholder="••••" maxlength="8">
+                    <p class="password-hint">请输入验证码开始测试</p>
+                    <p class="error-text" id="password-error" style="display: none;">验证码错误，请重试</p>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="title">ℹ️ 说明</div>
+                <div class="text">本测验结合性格为您推荐最适合的城市。中国传统五行理论认为，每个人出生的日期对应特定的五行属性。结合你的先天五行（出生日期推算）与后天性格（49题测验），为你推荐最契合的城市。</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="checkPassword()">
+                验证并开始
+            </button>
+
+            <p class="footer-text">小红书：温蒂AI分享</p>
+        </div>
+
+        <!-- ========== Page 1: Birth Date ========== -->
+        <div class="page" id="page-birthdate">
+            <div class="brand-header">
+                <div class="brand-badge">五</div>
+                <span class="brand-text">五行城市</span>
+                <span class="brand-text-en">Five Elements City</span>
+            </div>
+            <div class="deco-title">
+                <span class="en">your birth date</span>
+                <div class="main">你的出生日期</div>
+                <span class="sub">Based on your birth date</span>
+            </div>
+
+            <div class="card card-warm">
+                <div class="card-title">👤 关于这次测试</div>
+                <p class="card-text">中国传统五行理论认为，每个人出生的日期对应特定的五行属性。结合你的<strong style="color:var(--accent-pink);">先天五行</strong>（出生日期推算）与<strong style="color:var(--accent-pink);">后天性格</strong>（49题测验），为你推荐最契合的城市。</p>
+            </div>
+
+            <div class="card">
+                <div style="text-align:center; font-size:13px; color:var(--text-muted); margin-bottom:16px; font-family:'Noto Serif SC',serif; letter-spacing:2px;">— 你的出生日期 —</div>
+                <div class="select-group">
+                    <div>
+                        <select id="birth-year"></select>
+                    </div>
+                    <div>
+                        <select id="birth-month"></select>
+                    </div>
+                    <div>
+                        <select id="birth-day"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="title">💡 小提示</div>
+                <div class="text">请输入公历出生日期。五行分析基于出生日期与五行对应关系，结果仅供娱乐参考，不必过于认真。</div>
+            </div>
+
+            <button class="btn btn-primary" onclick="calculateWuxing()">
+                查看我的五行 →
+            </button>
+
+            <p class="footer-text">小红书：温蒂AI分享</p>
+        </div>
+
+        <!-- ========== Page 2: Wuxing Result ========== -->
+        <div class="page" id="page-wuxing">
+            <div class="brand-header">
+                <div class="brand-badge">五</div>
+                <span class="brand-text">五行城市</span>
+                <span class="brand-text-en">Five Elements City</span>
+            </div>
+            <div class="deco-title">
+                <span class="en">your innate element</span>
+                <div class="main">你的<span style="color:var(--accent-pink);">先天五行</span></div>
+                <span class="sub">Based on your birth date</span>
+            </div>
+
+            <div class="wuxing-circle">
+                <div class="wuxing-circle-inner" id="wuxing-icon">⚙️</div>
+            </div>
+
+            <div class="wuxing-gan-label">
+                <span class="gan" id="wuxing-gan">辛</span> · <span style="font-style:italic;">Metal</span>
+            </div>
+            <div class="wuxing-name-result" id="wuxing-name">
+                辛金命 <span class="element-name">Metal</span>
+            </div>
+            <div class="wuxing-traits" id="wuxing-traits">秩序 · 决断 · 精致</div>
+            <div class="wuxing-desc-text" id="wuxing-desc">金属性代表秩序、执行与决断力，重视规则与结果。</div>
+
+            <div class="relation-section" style="margin-top:24px;">
+                <div class="relation-section-title">☯️ 五行相生相克</div>
+                <div class="relation-text">相生：木生火，火生土，土生金，金生水，水生木。<br>相克：木克土，土克水，水克火，火克金，金克木。</div>
+                <div class="relation-grid">
+                    <div class="relation-item">
+                        <div class="relation-item-title">💚 生您的五行</div>
+                        <div class="relation-flow">
+                            <div class="element-dot" id="sheng-you-dot">土</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="element-dot" id="you-dot-1">金</div>
+                        </div>
+                    </div>
+                    <div class="relation-item">
+                        <div class="relation-item-title">✨ 您生的五行</div>
+                        <div class="relation-flow">
+                            <div class="element-dot" id="you-dot-2">金</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="element-dot" id="you-sheng-dot">水</div>
+                        </div>
+                    </div>
+                    <div class="relation-item">
+                        <div class="relation-item-title">🔴 克您的五行</div>
+                        <div class="relation-flow">
+                            <div class="element-dot" id="ke-you-dot">火</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="element-dot" id="you-dot-3">金</div>
+                        </div>
+                    </div>
+                    <div class="relation-item">
+                        <div class="relation-item-title">🚫 您克的五行</div>
+                        <div class="relation-flow">
+                            <div class="element-dot" id="you-dot-4">金</div>
+                            <span class="flow-arrow">→</span>
+                            <div class="element-dot" id="you-ke-dot">木</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="startQuiz()">
+                ▶ 开始测验
+            </button>
+
+            <p class="footer-text">小红书：温蒂AI分享</p>
+        </div>
+
+        <!-- ========== Page 4: Quiz ========== -->
+        <div class="page" id="page-quiz">
+            <div class="quiz-progress">
+                <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
+            </div>
+
+            <div style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:4px; font-family:'Noto Serif SC',serif; letter-spacing:1px;">personality quiz</div>
+
+            <div class="card" style="flex: 1;">
+                <div class="quiz-counter" id="quiz-counter">1 / 49</div>
+                <div class="quiz-question" id="quiz-question">你更喜欢哪种自然景观？</div>
+                <div class="quiz-options" id="quiz-options"></div>
+            </div>
+
+            <p class="footer-text">小红书：温蒂AI分享</p>
+        </div>
+
+        <!-- ========== Page 5: Result ========== -->
+        <div class="page" id="page-result">
+            <div class="brand-header">
+                <div class="brand-badge">五</div>
+                <span class="brand-text">五行城市</span>
+                <span class="brand-text-en">Five Elements City</span>
+            </div>
+
+            <div class="result-hero">
+                <span class="en-label">your destiny city</span>
+                <div class="main-title">你的五行城市</div>
+                <span class="sub-title">based on your element & personality</span>
+            </div>
+
+            <div class="city-circle-wrap">
+                <div class="best-match-badge">⭐ 最佳匹配</div>
+                <div class="city-circle" id="city-circle">
+                    <img id="city-circle-img" src="" alt="城市插画">
+                </div>
+                <div class="city-name-result" id="result-city">杭州</div>
+                <div class="city-tagline-result" id="result-tagline">江南水乡，人间天堂</div>
+            </div>
+
+            <!-- 五行匹配度柱状条 -->
+            <div class="score-section-title">
+                <span class="line"></span>
+                五行匹配度
+                <span class="line"></span>
+            </div>
+            <div class="score-card">
+                <div class="element-badge" id="result-element-badge">🌲 木属性 · Wood</div>
+
+                <div class="score-row" id="score-row-wood">
+                    <div class="score-label">🌲 木</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" id="bar-wood"></div>
+                    </div>
+                    <div class="score-val" id="score-wood">0%</div>
+                </div>
+                <div class="score-row" id="score-row-fire">
+                    <div class="score-label">🔥 火</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" id="bar-fire"></div>
+                    </div>
+                    <div class="score-val" id="score-fire">0%</div>
+                </div>
+                <div class="score-row" id="score-row-earth">
+                    <div class="score-label">🏔️ 土</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" id="bar-earth"></div>
+                    </div>
+                    <div class="score-val" id="score-earth">0%</div>
+                </div>
+                <div class="score-row" id="score-row-metal">
+                    <div class="score-label">⚙️ 金</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" id="bar-metal"></div>
+                    </div>
+                    <div class="score-val" id="score-metal">0%</div>
+                </div>
+                <div class="score-row" id="score-row-water">
+                    <div class="score-label">💧 水</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" id="bar-water"></div>
+                    </div>
+                    <div class="score-val" id="score-water">0%</div>
+                </div>
+            </div>
+
+            <!-- 综合匹配说明 -->
+            <div class="match-card">
+                <div class="match-card-title">⚖️ 综合匹配说明</div>
+                <p class="match-card-text">最终结果结合了您的先天五行（占 40%）和性格测验五行（占 60%），为您提供最平衡的城市建议。<br><br>考虑到您的先天属性与后天性格特征的结合，这个城市既能补足您命理的不足，又能匹配您的性格特点。</p>
+            </div>
+
+            <!-- 为什么是XX -->
+            <div class="card">
+                <div class="card-title" id="why-title">💫 为什么是杭州？</div>
+                <p class="card-text" id="why-text">这座城市与您的属性高度契合，能够为您提供良好的发展机遇和生活环境。</p>
+                <div class="keywords" id="keywords-container"></div>
+            </div>
+
+            <!-- 性格画像 -->
+            <div class="card card-warm">
+                <div class="card-title">🧠 你的性格画像</div>
+                <p class="card-text" id="personality-text">你是一个富有生命力的人，像春天的树木一样不断向上生长。</p>
+            </div>
+
+            <!-- 给你的话 -->
+            <div class="card card-warm">
+                <div class="card-title">💡 给你的话</div>
+                <p class="card-text" id="advice-text">就像树木需要扎根才能茁壮，你也要在稳健的基础上追求成长。</p>
+            </div>
+
+            <button class="btn btn-secondary" onclick="restartQuiz()" style="margin-bottom:10px;">
+                🔄 重新测验
+            </button>
+
+            <a class="btn btn-outline" href="results-index.html" style="margin-bottom:10px; text-decoration:none; display:block;">
+                🗺️ 查看所有城市
+            </a>
+
+            <button class="btn btn-outline" onclick="goToStart()">
+                📅 修改出生日期
+            </button>
+
+            <p class="footer-text">小红书：温蒂AI分享</p>
+        </div>
+    </div>
+
+    <script>
+        // ========== 配置区域 ==========
+        const LC_CONFIG = {
+            appId: 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz',
+            appKey: 'qRUw6afI4c1m5eHgpPG1fUrM',
+            serverURL: 'https://rxjtmrun.lc-cn-n1-shared.com'
+        };
+
+        async function lcRequest(method, endpoint, data = null) {
+            const url = `${LC_CONFIG.serverURL}/1.1${endpoint}`;
+            const options = {
+                method: method,
+                headers: {
+                    'X-LC-Id': LC_CONFIG.appId,
+                    'X-LC-Key': LC_CONFIG.appKey,
+                    'Content-Type': 'application/json'
+                }
+            };
+            if (data) options.body = JSON.stringify(data);
+
+            // 添加超时控制
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            options.signal = controller.signal;
+
+            try {
+                const response = await fetch(url, options);
+                clearTimeout(timeoutId);
+                if (!response.ok) throw new Error(`API ${response.status}`);
+                return response.json();
+            } catch (e) {
+                clearTimeout(timeoutId);
+                throw e;
+            }
+        }
+
+        // ========== 五行数据 ==========
+        const wuxingData = {
+            wood: { name: '木', color: '#7CB342', emoji: '🌲', tianGan: ['甲', '乙'], traits: '生长 · 创新 · 仁爱' },
+            fire: { name: '火', color: '#E57373', emoji: '🔥', tianGan: ['丙', '丁'], traits: '热情 · 活力 · 领导力' },
+            earth: { name: '土', color: '#BCAAA4', emoji: '🏔️', tianGan: ['戊', '己'], traits: '稳重 · 包容 · 信任' },
+            metal: { name: '金', color: '#90A4AE', emoji: '⚙️', tianGan: ['庚', '辛'], traits: '秩序 · 决断 · 精致' },
+            water: { name: '水', color: '#64B5F6', emoji: '💧', tianGan: ['壬', '癸'], traits: '智慧 · 灵活 · 适应' }
+        };
+
+        const tianGanWuxing = {
+            '甲': 'wood', '乙': 'wood',
+            '丙': 'fire', '丁': 'fire',
+            '戊': 'earth', '己': 'earth',
+            '庚': 'metal', '辛': 'metal',
+            '壬': 'water', '癸': 'water'
+        };
+
+        const tianGanCycle = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+
+        const wuxingRelations = {
+            wood: { shengBy: 'water', sheng: 'fire', keBy: 'metal', ke: 'earth' },
+            fire: { shengBy: 'wood', sheng: 'earth', keBy: 'water', ke: 'metal' },
+            earth: { shengBy: 'fire', sheng: 'metal', keBy: 'wood', ke: 'water' },
+            metal: { shengBy: 'earth', sheng: 'water', keBy: 'fire', ke: 'wood' },
+            water: { shengBy: 'metal', sheng: 'wood', keBy: 'earth', ke: 'fire' }
+        };
+
+        const wuxingDescriptions = {
+            wood: '木属性代表生长、创新与仁爱，追求自由与发展，善于规划与开拓。',
+            fire: '火属性代表热情、活力与礼仪，充满能量与感染力，善于表达与领导。',
+            earth: '土属性代表稳重、包容与信任，脚踏实地，值得信赖，善于协调与经营。',
+            metal: '金属性代表秩序、执行与决断力，重视规则与结果，善于分析与执行。',
+            water: '水属性代表智慧、灵活与适应力，善于变通与沟通，富有创意与洞察力。'
+        };
+
+        const cityTaglines = {
+            wood: { hangzhou: '江南水乡，人间天堂', chengdu: '天府之国，美食之都', kunming: '春城无处不飞花', nanning: '半城绿树半城楼', guilin: '山水甲天下' },
+            fire: { shenzhen: '鹏城新火，光启未来', guangzhou: '千年商都，食在广州', chongqing: '8D魔幻，热辣滚烫', changsha: '娱乐之都，敢为人先', xiamen: '海上花园，文艺浪漫' },
+            earth: { xian: '千年古都，十三朝风华', zhengzhou: '天地之中，通达八方', luoyang: '唯有牡丹真国色', taiyuan: '晋善晋美，诚信如山', shijiazhuang: '脚踏实地，仰望星空' },
+            metal: { beijing: '大气磅礴，方正规矩', shanghai: '海纳百川，追求卓越', tianjin: '九河下梢，规矩方正', shenyang: '共和国长子的脊梁', dalian: '北方明珠，浪漫之都' },
+            water: { suzhou: '上有天堂，下有苏杭', nanjing: '江南佳丽地，金陵帝王州', wuhan: '大江大湖大武汉', qingdao: '红瓦绿树，碧海蓝天', ningbo: '书藏古今，港通天下' }
+        };
+
+        const cityEmojis = {
+            wood: { hangzhou: '🏯', chengdu: '🐼', kunming: '🌸', nanning: '🌴', guilin: '⛰️' },
+            fire: { shenzhen: '🚀', guangzhou: '🦁', chongqing: '🌶️', changsha: '🎬', xiamen: '🏖️' },
+            earth: { xian: '🏛️', zhengzhou: '🚄', luoyang: '🌸', taiyuan: '⛏️', shijiazhuang: '🏭' },
+            metal: { beijing: '🏛️', shanghai: '🌃', tianjin: '🚢', shenyang: '⚙️', dalian: '🌊' },
+            water: { suzhou: '🏡', nanjing: '🏯', wuhan: '🌉', qingdao: '⛵', ningbo: '🚢' }
+        };
+
+        const cities = {
+            wood: [
+                { name: '杭州', id: 'hangzhou', desc: '江南水乡，绿意盎然，互联网创新之都。杭州的灵动与创新气质与木属性的生长、开拓精神完美契合。西湖的秀美与阿里巴巴的创业精神，都体现了木的生机与发展。' },
+                { name: '成都', id: 'chengdu', desc: '天府之国，草木繁茂，包容开放。成都的闲适与创意氛围与木属性的自由发展特质相得益彰。这里既有传统文化的滋养，又有新兴产业的蓬勃发展。' },
+                { name: '昆明', id: 'kunming', desc: '四季如春，花团锦簇，生态宜居。昆明的温润气候与木属性的生长特质高度契合。这座春城以其独特的自然环境，为追求成长的人提供理想的发展土壤。' },
+                { name: '南宁', id: 'nanning', desc: '绿城之称，热带风情，生机勃勃。南宁的亚热带气候孕育了丰富的植被，与木属性的生命力完美呼应。这里是东盟开放门户，充满发展机遇。' },
+                { name: '桂林', id: 'guilin', desc: '山水甲天下，自然与人文交融。桂林的奇山秀水体现了木属性的自然之美与生态和谐。这里适合追求诗意生活与艺术创作的人。' }
+            ],
+            fire: [
+                { name: '深圳', id: 'shenzhen', desc: '创新之城，活力四射，改革开放的前沿阵地。深圳的热情与拼搏精神与火属性的能量、领导力高度契合。这座年轻的城市燃烧着梦想与激情。' },
+                { name: '广州', id: 'guangzhou', desc: '千年商都，热情好客，美食之都。广州的商业活力与包容热情与火属性的感染力相得益彰。这里是敢为人先、勇于创新的热土。' },
+                { name: '重庆', id: 'chongqing', desc: '山城火锅，热辣豪爽，立体都市。重庆的火辣性格与火属性的热情特质完美契合。这座8D魔幻城市充满了生命的热度与活力。' },
+                { name: '长沙', id: 'changsha', desc: '娱乐之都，敢为人先，湖湘文化发源地。长沙的娱乐精神与创新活力与火属性的表达欲相呼应。这里是年轻人实现梦想的舞台。' },
+                { name: '厦门', id: 'xiamen', desc: '海滨花园，文艺浪漫，温暖宜人。厦门的热带风情与文艺气息与火属性的热情浪漫相契合。这座海岛城市散发着温暖的光芒。' }
+            ],
+            earth: [
+                { name: '西安', id: 'xian', desc: '十三朝古都，历史厚重，文化底蕴深厚。西安的稳重与传承与土属性的包容、信任特质完美契合。这座城市承载着中华文明的根脉。' },
+                { name: '郑州', id: 'zhengzhou', desc: '中原之地，土气厚重，交通枢纽。郑州的务实与包容与土属性的稳重特质高度契合。这里是中原腹地，四通八达的国家中心城市。' },
+                { name: '洛阳', id: 'luoyang', desc: '神都洛阳，牡丹花城，千年帝都。洛阳的历史积淀与土属性的厚重包容相呼应。这座古都见证了中华文明的辉煌与传承。' },
+                { name: '太原', id: 'taiyuan', desc: '晋商故里，诚信为本，煤炭之都。太原的朴实与诚信与土属性的值得信赖特质相契合。这座城市有着深厚的商业传统与文化底蕴。' },
+                { name: '石家庄', id: 'shijiazhuang', desc: '华北重镇，踏实肯干，革命圣地。石家庄的务实作风与土属性的脚踏实地精神相呼应。这里是连接南北的重要枢纽城市。' }
+            ],
+            metal: [
+                { name: '北京', id: 'beijing', desc: '首都之城，秩序严明，政治文化中心。北京的规范与权威与金属性的秩序、执行力高度契合。这座城市汇聚了国家的决策与资源。' },
+                { name: '上海', id: 'shanghai', desc: '魔都繁华，精致高效，国际金融中心。上海的精明与效率与金属性的分析、决断力相呼应。这座城市是商业与时尚的完美结合。' },
+                { name: '天津', id: 'tianjin', desc: '北方港口，规矩方正，工业重镇。天津的规矩与务实与金属性的秩序特质相契合。这座城市有着独特的津味文化与工业底蕴。' },
+                { name: '沈阳', id: 'shenyang', desc: '共和国长子，工业基础雄厚，东北振兴龙头。沈阳的工业精神与金属性的执行力相呼应。这座城市承载着东北工业的辉煌与复兴。' },
+                { name: '大连', id: 'dalian', desc: '北方明珠，海滨城市，浪漫之都。大连的精致与秩序与金属性的规范特质相契合。这座城市兼具北方的大气与海滨的浪漫。' }
+            ],
+            water: [
+                { name: '苏州', id: 'suzhou', desc: '东方威尼斯，水乡园林，温婉灵动。苏州的灵秀与智慧与水属性的适应力、洞察力高度契合。这座城市是传统与现代的完美融合。' },
+                { name: '南京', id: 'nanjing', desc: '六朝古都，江水环绕，文化荟萃。南京的深沉与智慧与水属性的沉稳通达相呼应。这座城市见证了历史的沧桑与文明的传承。' },
+                { name: '武汉', id: 'wuhan', desc: '九省通衢，两江交汇，英雄之城。武汉的通达与活力与水属性的流动、变通特质相契合。这座城市是中部崛起的核心引擎。' },
+                { name: '青岛', id: 'qingdao', desc: '红瓦绿树，碧海蓝天，帆船之都。青岛的海洋气息与水属性的灵活、开放特质高度契合。这座城市兼具欧陆风情与东方神韵。' },
+                { name: '宁波', id: 'ningbo', desc: '东海之滨，港通天下，商贸重镇。宁波的灵活与商业智慧与水属性的变通、沟通能力相呼应。这座城市有着悠久的海上丝绸之路传统。' }
+            ]
+        };
+
+        // 城市关键词
+        const cityKeywordsData = {
+            hangzhou: ['西湖', '互联网', '龙井茶', '灵隐寺', '丝绸'],
+            chengdu: ['火锅', '大熊猫', '宽窄巷子', '都江堰', '赵雷'],
+            kunming: ['滇池', '石林', '过桥米线', '鲜花', '民族村'],
+            nanning: ['青秀山', '中山路', '老友粉', '东盟', '邕江'],
+            guilin: ['漓江', '阳朔', '象鼻山', '米粉', '梯田'],
+            shenzhen: ['科技园', '华侨城', '大梅沙', '前海', '世界之窗'],
+            guangzhou: ['小蛮腰', '早茶', '珠江新城', '上下九', '长隆'],
+            chongqing: ['洪崖洞', '火锅', '轻轨穿楼', '磁器口', '南山'],
+            changsha: ['茶颜悦色', '橘子洲', '湖南卫视', '岳麓山', '文和友'],
+            xiamen: ['鼓浪屿', '曾厝垵', '沙茶面', '环岛路', '南普陀'],
+            xian: ['兵马俑', '大雁塔', '肉夹馍', '城墙', '回民街'],
+            zhengzhou: ['二七塔', '少林寺', '烩面', 'CBD', '黄河'],
+            luoyang: ['龙门石窟', '牡丹', '白马寺', '水席', '关林'],
+            taiyuan: ['晋祠', '平遥', '刀削面', '煤炭', '古城'],
+            shijiazhuang: ['赵州桥', '西柏坡', '驴肉火烧', '正定', '天山海世界'],
+            beijing: ['故宫', '长城', '烤鸭', '胡同', '中关村'],
+            shanghai: ['外滩', '陆家嘴', '小笼包', '弄堂', '迪士尼'],
+            tianjin: ['天津眼', '五大道', '狗不理', '相声', '煎饼果子'],
+            shenyang: ['故宫', '张氏帅府', '鸡架', '棋盘山', '西塔'],
+            dalian: ['星海广场', '金石滩', '海鲜', '有轨电车', '东港'],
+            suzhou: ['园林', '拙政园', '大闸蟹', '丝绸', '金鸡湖'],
+            nanjing: ['中山陵', '夫子庙', '鸭血粉丝', '总统府', '玄武湖'],
+            wuhan: ['黄鹤楼', '热干面', '东湖', '长江大桥', '武大樱花'],
+            qingdao: ['栈桥', '崂山', '啤酒', '八大关', '帆船'],
+            ningbo: ['天一阁', '东钱湖', '汤圆', '老外滩', '舟山']
+        };
+
+        // 各五行性格画像
+        const cityPersonalities = {
+            wood: '你是一个富有生命力的人，像春天的树木一样不断向上生长。你天性善良温和，充满创造力与想象力，对未来总是怀有美好的愿景。在团队中你是温柔而坚定的力量，善于用耐心和同理心去帮助他人成长。',
+            fire: '你是一个充满能量的人，像燃烧的火焰一样热烈而耀眼。你天生具有领导气质和感染力，总能带动周围人的情绪。你热爱挑战，不惧困难，勇往直前是你的人生信条。',
+            earth: '你是一个沉稳可靠的人，像大地一样包容而坚定。你脚踏实地，信守承诺，是朋友眼中最值得信赖的人。你不追求浮华，注重实际，善于在平淡中发现生活的真谛。',
+            metal: '你是一个理性严谨的人，像精炼的金属一样追求完美。你注重规则与秩序，拥有强大的执行力和分析能力。你善于做出果断的决定，在专业领域追求卓越。',
+            water: '你是一个聪慧灵动的人，像流水一样善于变通和适应。你拥有敏锐的洞察力和出色的沟通能力，总能在复杂局面中找到最佳路径。你崇尚自由，不喜欢被条条框框束缚。'
+        };
+
+        // 各五行寄语
+        const cityAdvice = {
+            wood: '就像树木需要扎根才能茁壮，你也要在稳健的基础上追求成长。工作中不妨多发挥你的创造力与规划能力，在团队中做一个温柔而坚定的引领者。记得偶尔慢下来感受生活的美好，你的善良和耐心终将开花结果。',
+            fire: '火焰虽旺也需薪柴，学会将你的热情聚焦在真正重要的事情上。工作中善用你的领导力和感染力，带领团队冲向目标。也要记得适当降温，给自己一些安静的时光，平衡好激情与理性。',
+            earth: '大地承载万物却不张扬，你的稳重就是最大的优势。工作中发挥你的协调能力和可靠性，成为团队的定海神针。偶尔也要敢于尝试新事物，适当的冒险会让你的人生更加丰富多彩。',
+            metal: '精金百炼方成器，你的严谨与自律终将带你到达高处。工作中善用你的分析力和执行力，制定清晰的计划并坚定执行。记得在追求完美的同时也要学会接纳不完美，生活会因此更加轻松。',
+            water: '上善若水，你的灵活与智慧是最珍贵的品质。工作中发挥你的变通能力和洞察力，在变化中找到机遇。记得在自由流动的同时也要找到自己的方向，有了目标的水流才能汇入大海。'
+        };
+
+        // 49道测验题
+        const questions = [
+            { question: '你更喜欢哪种自然景观？', options: [{ text: '茂密的森林和绿地', element: 'wood' }, { text: '阳光灿烂的海滩', element: 'fire' }, { text: '广阔的平原和高原', element: 'earth' }, { text: '巍峨的高山和矿脉', element: 'metal' }, { text: '江河湖海或湿地', element: 'water' }] },
+            { question: '你的性格更接近哪一种描述？', options: [{ text: '温和、有耐心、善于成长', element: 'wood' }, { text: '热情、活跃、充满能量', element: 'fire' }, { text: '稳重、务实、值得信赖', element: 'earth' }, { text: '坚定、果断、追求完美', element: 'metal' }, { text: '灵活、变通、适应力强', element: 'water' }] },
+            { question: '周末你最想做什么？', options: [{ text: '去公园或郊外散步', element: 'wood' }, { text: '约朋友出去玩耍', element: 'fire' }, { text: '待在家里放松休息', element: 'earth' }, { text: '学习新技能或读书', element: 'metal' }, { text: '看电影或听音乐', element: 'water' }] },
+            { question: '面对困难时你的第一反应是？', options: [{ text: '冷静分析，慢慢找方法', element: 'wood' }, { text: '积极行动，马上去解决', element: 'fire' }, { text: '稳稳当当，按部就班来', element: 'earth' }, { text: '制定计划，严密执行', element: 'metal' }, { text: '灵活调整，换个思路', element: 'water' }] },
+            { question: '你最向往的生活状态是？', options: [{ text: '自由漂亮的田园生活', element: 'wood' }, { text: '精彩刺激的都市生活', element: 'fire' }, { text: '安静温暖的家庭生活', element: 'earth' }, { text: '高效有序的职业生活', element: 'metal' }, { text: '诗意洒脱的流浪生活', element: 'water' }] },
+            { question: '你对团队合作的态度是？', options: [{ text: '愿意帮忙，默默付出', element: 'wood' }, { text: '喜欢带领，充当领袖', element: 'fire' }, { text: '踏实支持，做好后勤', element: 'earth' }, { text: '注重效率，推动进度', element: 'metal' }, { text: '善于协调，润滑关系', element: 'water' }] },
+            { question: '你最喜欢的颜色是？', options: [{ text: '绿色系', element: 'wood' }, { text: '红色或橙色系', element: 'fire' }, { text: '棕色或米色系', element: 'earth' }, { text: '银色或灰色系', element: 'metal' }, { text: '蓝色系', element: 'water' }] },
+            { question: '你最擅长的能力是？', options: [{ text: '创造力和想象力', element: 'wood' }, { text: '表达力和感染力', element: 'fire' }, { text: '耐心和包容力', element: 'earth' }, { text: '逻辑力和执行力', element: 'metal' }, { text: '沟通力和适应力', element: 'water' }] },
+            { question: '你理想中的工作环境是？', options: [{ text: '自由开放，创意十足', element: 'wood' }, { text: '活跃热闹，社交丰富', element: 'fire' }, { text: '稳定舒适，氛围融洽', element: 'earth' }, { text: '规范严谨，目标清晰', element: 'metal' }, { text: '灵活多变，不受束缚', element: 'water' }] },
+            { question: '你最喜欢的季节是？', options: [{ text: '春天，万物复苏', element: 'wood' }, { text: '夏天，热情澎湃', element: 'fire' }, { text: '秋天，金色丰收', element: 'earth' }, { text: '冬天，清冷宁静', element: 'metal' }, { text: '梅雨季，绵绵细雨', element: 'water' }] },
+            { question: '你最愿意尝试哪种运动？', options: [{ text: '徒步登山或野外探险', element: 'wood' }, { text: '篮球或足球等团队运动', element: 'fire' }, { text: '瑜伽或太极拳', element: 'earth' }, { text: '跑步或马拉松', element: 'metal' }, { text: '游泳或冲浪', element: 'water' }] },
+            { question: '你对金钱的态度更接近哪一种？', options: [{ text: '自然而然，不太计划', element: 'wood' }, { text: '拿来就花，享受生活', element: 'fire' }, { text: '仔细存款，稳稳攒家底', element: 'earth' }, { text: '做好预算，严格理财', element: 'metal' }, { text: '灵活支配，随机分配', element: 'water' }] },
+            { question: '社交场合中你最可能做什么？', options: [{ text: '安静观察，适时参与', element: 'wood' }, { text: '活跃发言，成为焦点', element: 'fire' }, { text: '热情招待，照顾大家', element: 'earth' }, { text: '主持节奏，组织活动', element: 'metal' }, { text: '穿针引线，连接各方', element: 'water' }] },
+            { question: '你解决问题的方式是？', options: [{ text: '凭感觉和直觉来判断', element: 'wood' }, { text: '果断行动，先做再说', element: 'fire' }, { text: '反复斟酌，稳妥为先', element: 'earth' }, { text: '收集数据，理性分析', element: 'metal' }, { text: '多方考量，找到最优解', element: 'water' }] },
+            { question: '你最想拥有的品质是什么？', options: [{ text: '创新和进步', element: 'wood' }, { text: '勇气和热情', element: 'fire' }, { text: '忠诚和信用', element: 'earth' }, { text: '纪律和精确', element: 'metal' }, { text: '智慧和洞察', element: 'water' }] },
+            { question: '你最喜欢哪种饮食风格？', options: [{ text: '清淡健康的蔬果料理', element: 'wood' }, { text: '辛辣刺激的火锅或川菜', element: 'fire' }, { text: '家常实在的红烧肉饭', element: 'earth' }, { text: '精致讲究的日料或西餐', element: 'metal' }, { text: '鲜美鲜活的海鲜料理', element: 'water' }] },
+            { question: '你理想中的度假方式是？', options: [{ text: '深山露营或自然探索', element: 'wood' }, { text: '热闹的旅游景区打卡', element: 'fire' }, { text: '温泉度假或民宿放松', element: 'earth' }, { text: '文化名城参观博物馆', element: 'metal' }, { text: '海岛潜水或帆船航行', element: 'water' }] },
+            { question: '你看待事情的第一想法是？', options: [{ text: '这里有什么新东西可以学', element: 'wood' }, { text: '这看起来很有趣，试试看', element: 'fire' }, { text: '这样做稳不稳妥呢', element: 'earth' }, { text: '这件事的逻辑对不对', element: 'metal' }, { text: '换个角度看会怎样', element: 'water' }] },
+            { question: '朋友们评价你最可能说什么？', options: [{ text: '这个人很好心很温柔', element: 'wood' }, { text: '这个人很有激情很积极', element: 'fire' }, { text: '这个人很可靠很稳当', element: 'earth' }, { text: '这个人很严谨很专业', element: 'metal' }, { text: '这个人很聪明很懂人', element: 'water' }] },
+            { question: '你对待新事物的态度是？', options: [{ text: '很期待，乐于尝试', element: 'wood' }, { text: '兴奋冲动，立刻去做', element: 'fire' }, { text: '观望一段时间再决定', element: 'earth' }, { text: '先研究清楚再行动', element: 'metal' }, { text: '看情况，灵活决定', element: 'water' }] },
+            { question: '你最想获得哪种成就？', options: [{ text: '开创一个新的领域', element: 'wood' }, { text: '成为行业里的明星', element: 'fire' }, { text: '建立稳定幸福的家庭', element: 'earth' }, { text: '在专业上达到顶峰', element: 'metal' }, { text: '拥有广泛的人脉资源', element: 'water' }] },
+            { question: '你最讨厌的是什么？', options: [{ text: '被束缚和限制自由', element: 'wood' }, { text: '无聊单调的重复生活', element: 'fire' }, { text: '突如其来的变化和不确定', element: 'earth' }, { text: '粗马虎和不负责任', element: 'metal' }, { text: '刻板教条和僵硬规矩', element: 'water' }] },
+            { question: '你闲下来最愿意做什么？', options: [{ text: '种植花草或园艺', element: 'wood' }, { text: '和朋友聚餐或唱歌', element: 'fire' }, { text: '整理房间或做手工', element: 'earth' }, { text: '看书或写作', element: 'metal' }, { text: '刷视频或追剧', element: 'water' }] },
+            { question: '你处理人际关系的方式是？', options: [{ text: '真诚相待，以心换心', element: 'wood' }, { text: '热烈交往，快速拉近关系', element: 'fire' }, { text: '耐心经营，长久维持', element: 'earth' }, { text: '保持距离，理性对待', element: 'metal' }, { text: '察言观色，随机应变', element: 'water' }] },
+            { question: '你的生活节奏更接近哪一种？', options: [{ text: '随心所欲，自然流动', element: 'wood' }, { text: '快节奏，精力充沛', element: 'fire' }, { text: '平稳匀速，日常规律', element: 'earth' }, { text: '高效有序，时间管理严格', element: 'metal' }, { text: '忽快忽慢，看心情决定', element: 'water' }] },
+            { question: '你最心仪的住所风格是？', options: [{ text: '木质温暖的日式风格', element: 'wood' }, { text: '色彩鲜艳的地中海风格', element: 'fire' }, { text: '朴素温馨的农家风格', element: 'earth' }, { text: '简洁冷调的北欧风格', element: 'metal' }, { text: '清淡雅致的东方风格', element: 'water' }] },
+            { question: '你面对压力的方式是？', options: [{ text: '深呼吸，找个安静的地方', element: 'wood' }, { text: '运动或和朋友倾诉', element: 'fire' }, { text: '泡杯茶，慢慢理清思路', element: 'earth' }, { text: '列清单，逐项解决', element: 'metal' }, { text: '听音乐，转移注意力', element: 'water' }] },
+            { question: '你对待规矩和规则的态度是？', options: [{ text: '愿意灵活变通，不拘一格', element: 'wood' }, { text: '觉得规矩可以创新突破', element: 'fire' }, { text: '尊重规矩，按规行事', element: 'earth' }, { text: '非常在乎，严格遵守', element: 'metal' }, { text: '看具体情况，适者为善', element: 'water' }] },
+            { question: '你最愿意帮助别人做什么？', options: [{ text: '帮忙出主意或开拓思路', element: 'wood' }, { text: '帮忙鼓励或打气', element: 'fire' }, { text: '帮忙做具体的事务工作', element: 'earth' }, { text: '帮忙分析或提供方案', element: 'metal' }, { text: '帮忙协调沟通关系', element: 'water' }] },
+            { question: '你对待时间的态度是？', options: [{ text: '活在当下，不太看时钟', element: 'wood' }, { text: '行动力强，不浪费时间', element: 'fire' }, { text: '合理安排，均衡度过', element: 'earth' }, { text: '极其珍惜，精确利用', element: 'metal' }, { text: '随波逐流，顺其自然', element: 'water' }] },
+            { question: '你最想去哪种城市旅行？', options: [{ text: '绿化丰富的小城镇', element: 'wood' }, { text: '繁华热闹的大都市', element: 'fire' }, { text: '宁静安逸的古镇', element: 'earth' }, { text: '高度现代化的国际城市', element: 'metal' }, { text: '靠海的浪漫海滨城市', element: 'water' }] },
+            { question: '你看待成功的定义是？', options: [{ text: '做出了自己想做的事情', element: 'wood' }, { text: '获得了社会的认可和尊敬', element: 'fire' }, { text: '拥有了稳定幸福的生活', element: 'earth' }, { text: '达到了预定的目标和标准', element: 'metal' }, { text: '拥有了自由和选择权', element: 'water' }] },
+            { question: '你的兴趣爱好更接近哪类？', options: [{ text: '绘画、摄影或手工艺', element: 'wood' }, { text: '唱歌、跳舞或演出', element: 'fire' }, { text: '烹饪、编织或园艺', element: 'earth' }, { text: '阅读、研究或编程', element: 'metal' }, { text: '旅游、探索或游戏', element: 'water' }] },
+            { question: '你最欣赏领导者的哪种特质？', options: [{ text: '有远景、善于启发别人', element: 'wood' }, { text: '有魅力、行动力很强', element: 'fire' }, { text: '有耐心、能得到大家信任', element: 'earth' }, { text: '有原则、决策果断明智', element: 'metal' }, { text: '有智慧、懂得机变权衡', element: 'water' }] },
+            { question: '你对待未来的态度是？', options: [{ text: '充满希望，愿意探索', element: 'wood' }, { text: '充满激情，迫不及待', element: 'fire' }, { text: '踏实准备，一步一步来', element: 'earth' }, { text: '提前规划，未雨绸缪', element: 'metal' }, { text: '顺势而为，随机应对', element: 'water' }] },
+            { question: '你最不能接受的工作状态是？', options: [{ text: '被限制创造力和自由度', element: 'wood' }, { text: '缺乏挑战和激励', element: 'fire' }, { text: '环境不稳定东奔西跑', element: 'earth' }, { text: '工作混乱没有章法', element: 'metal' }, { text: '人际关系复杂让人压抑', element: 'water' }] },
+            { question: '你最想拥有哪种礼物？', options: [{ text: '一套好的创作工具', element: 'wood' }, { text: '一次刺激的旅行体验', element: 'fire' }, { text: '一件温暖贴心的家用品', element: 'earth' }, { text: '一本值得精读的好书', element: 'metal' }, { text: '一份不预约的随心愿望', element: 'water' }] },
+            { question: '你对待争论的方式是？', options: [{ text: '冷静倾听，理解对方', element: 'wood' }, { text: '直言不讳，敢于表达', element: 'fire' }, { text: '想方设法找到平衡点', element: 'earth' }, { text: '用事实和逻辑来说服', element: 'metal' }, { text: '先退后进，缓和气氛', element: 'water' }] },
+            { question: '你对待孤独时间的态度是？', options: [{ text: '很享受，用来感受大自然', element: 'wood' }, { text: '不太喜欢，想找人玩', element: 'fire' }, { text: '很放松，用来休息充电', element: 'earth' }, { text: '很高效，用来自我提升', element: 'metal' }, { text: '很自在，用来天马行空', element: 'water' }] },
+            { question: '你最认同哪种人生观念？', options: [{ text: '人生如树，要不断生根发芽', element: 'wood' }, { text: '人生如火，要燃烧得够亮', element: 'fire' }, { text: '人生如山，要稳稳站得住脚', element: 'earth' }, { text: '人生如剑，要锐利和精确', element: 'metal' }, { text: '人生如水，要流动和变化', element: 'water' }] },
+            { question: '你最想培养的习惯是什么？', options: [{ text: '每天在大自然中散步', element: 'wood' }, { text: '每天保持积极的心态', element: 'fire' }, { text: '每天规律作息和饮食', element: 'earth' }, { text: '每天制定并完成目标', element: 'metal' }, { text: '每天学习新的事情', element: 'water' }] },
+            { question: '你给自己放假时最想做什么？', options: [{ text: '种植花园或打造手工艺品', element: 'wood' }, { text: '参加社交活动或派对', element: 'fire' }, { text: '做一顿丰盛的家常菜', element: 'earth' }, { text: '整理房间和个人物品', element: 'metal' }, { text: '躺着看书或追综艺', element: 'water' }] },
+            { question: '你最欣赏哪种艺术形式？', options: [{ text: '国画或风景摄影', element: 'wood' }, { text: '戏剧或音乐演出', element: 'fire' }, { text: '陶艺或手工编织', element: 'earth' }, { text: '雕塑或建筑设计', element: 'metal' }, { text: '现代装置艺术或文学', element: 'water' }] },
+            { question: '你觉得最重要的品德是什么？', options: [{ text: '善良和包容', element: 'wood' }, { text: '勇敢和正义', element: 'fire' }, { text: '诚实和踏实', element: 'earth' }, { text: '责任和自律', element: 'metal' }, { text: '智慧和宽容', element: 'water' }] },
+            { question: '你对待失败的态度是？', options: [{ text: '慢慢消化，总会好起来的', element: 'wood' }, { text: '马上反弹，更加努力', element: 'fire' }, { text: '仔细总结，稳步前进', element: 'earth' }, { text: '反复复盘，找到原因', element: 'metal' }, { text: '看开了，换个方向走', element: 'water' }] },
+            { question: '你最想拥有的超能力是什么？', options: [{ text: '能让植物快速生长', element: 'wood' }, { text: '能释放火焰或能量', element: 'fire' }, { text: '能让周围一切稳定', element: 'earth' }, { text: '能精确预知未来', element: 'metal' }, { text: '能自由穿越时空', element: 'water' }] },
+            { question: '你选择一个新项目的理由是什么？', options: [{ text: '觉得有意思，想尝试', element: 'wood' }, { text: '觉得有挑战，想突破', element: 'fire' }, { text: '觉得稳妥，风险不大', element: 'earth' }, { text: '觉得可行，前景明确', element: 'metal' }, { text: '觉得灵活，可以随机调整', element: 'water' }] },
+            { question: '你最想成为什么样的人？', options: [{ text: '充满创意和爱心的人', element: 'wood' }, { text: '充满热情和影响力的人', element: 'fire' }, { text: '踏实可靠和受尊敬的人', element: 'earth' }, { text: '严谨专业和成就卓越的人', element: 'metal' }, { text: '聪慧洒脱和自由的人', element: 'water' }] },
+            { question: '你更喜欢哪种天气？', options: [{ text: '春风和煦的晴天', element: 'wood' }, { text: '阳光炽热的夏日', element: 'fire' }, { text: '温和干燥的天气', element: 'earth' }, { text: '秋高气爽的时节', element: 'metal' }, { text: '细雨绵绵或雪天', element: 'water' }] }
+        ];
+
+        // ========== 状态变量 ==========
+        let currentPage = 'page-password';
+        let birthDate = { year: null, month: null, day: null };
+        let userWuxing = null;
+        let currentQuestion = 0;
+        let quizAnswers = { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+        let resultCityId = null;
+        let resultElement = null;
+
+        // ========== 初始化 ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            initSelects();
+            document.getElementById('password-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+        });
+
+        function initSelects() {
+            const yearSelect = document.getElementById('birth-year');
+            const monthSelect = document.getElementById('birth-month');
+            const daySelect = document.getElementById('birth-day');
+
+            yearSelect.innerHTML = '<option value="">选择年份</option>';
+            for (let year = 2015; year >= 1950; year--) {
+                yearSelect.innerHTML += `<option value="${year}">${year}年</option>`;
+            }
+
+            monthSelect.innerHTML = '<option value="">选择月份</option>';
+            for (let month = 1; month <= 12; month++) {
+                monthSelect.innerHTML += `<option value="${month}">${month}月</option>`;
+            }
+
+            daySelect.innerHTML = '<option value="">选择日期</option>';
+            for (let day = 1; day <= 31; day++) {
+                daySelect.innerHTML += `<option value="${day}">${day}日</option>`;
+            }
+        }
+
+        // ========== 用户验证 ==========
+        async function checkPassword() {
+            const input = document.getElementById('password-input');
+            const password = input.value.trim();
+            const errorEl = document.getElementById('password-error');
+            const btn = document.querySelector('#page-password .btn-primary');
+            const successEl = document.getElementById('password-success');
+            const originalBtnText = btn.textContent;
+
+            if (!password) {
+                errorEl.textContent = '请输入校验码';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            // 显示加载状态
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading-spinner"></span> 验证中...';
+            btn.style.opacity = '0.8';
+            input.disabled = true;
+            errorEl.style.display = 'none';
+            if (successEl) successEl.style.display = 'none';
+
+            console.log('[checkPassword] 开始验证, 输入码:', password);
+
+            try {
+                const result = await lcRequest('GET',
+                    `/classes/VerificationCode?where=${encodeURIComponent(JSON.stringify({ code: password }))}&limit=1`
+                );
+
+                console.log('[checkPassword] API 返回:', result);
+
+                if (result.results && result.results.length > 0) {
+                    const record = result.results[0];
+                    console.log('[checkPassword] 校验码有效:', record.code, 'used:', record.used);
+                    showPage('page-birthdate');
+                    return; // 成功后不需要恢复按钮
+                } else {
+                    console.log('[checkPassword] 校验码无效');
+                    errorEl.textContent = '校验码错误，请重试';
+                    errorEl.style.display = 'block';
+                    input.classList.add('shake');
+                    setTimeout(() => input.classList.remove('shake'), 400);
+                }
+            } catch (e) {
+                console.error('[checkPassword] 网络请求失败:', e.message);
+                errorEl.textContent = '网络连接失败，请检查网络后重试';
+                errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.innerHTML = originalBtnText;
+                input.disabled = false;
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            currentPage = pageId;
+            window.scrollTo(0, 0);
+        }
+
+        // ========== 五行计算 ==========
+        function calculateWuxing() {
+            const year = parseInt(document.getElementById('birth-year').value);
+            const month = parseInt(document.getElementById('birth-month').value);
+            const day = parseInt(document.getElementById('birth-day').value);
+
+            if (!year || !month || !day) {
+                alert('请选择完整的出生日期');
+                return;
+            }
+
+            birthDate = { year, month, day };
+
+            const tianGanIndex = (year - 4) % 10;
+            const tianGan = tianGanCycle[tianGanIndex];
+            userWuxing = tianGanWuxing[tianGan];
+
+            const wuxing = wuxingData[userWuxing];
+            document.getElementById('wuxing-icon').textContent = wuxing.emoji;
+            document.getElementById('wuxing-gan').textContent = tianGan;
+            document.getElementById('wuxing-name').innerHTML = `${tianGan}${wuxing.name}命 <span class="element-name">${wuxing.name}</span>`;
+            document.getElementById('wuxing-traits').textContent = wuxing.traits;
+            document.getElementById('wuxing-desc').textContent = wuxingDescriptions[userWuxing];
+
+            const relations = wuxingRelations[userWuxing];
+            updateDot('sheng-you-dot', relations.shengBy);
+            updateDot('you-dot-1', userWuxing);
+            updateDot('you-dot-2', userWuxing);
+            updateDot('you-sheng-dot', relations.sheng);
+            updateDot('ke-you-dot', relations.keBy);
+            updateDot('you-dot-3', userWuxing);
+            updateDot('you-dot-4', userWuxing);
+            updateDot('you-ke-dot', relations.ke);
+
+            showPage('page-wuxing');
+        }
+
+        function updateDot(dotId, element) {
+            const dot = document.getElementById(dotId);
+            dot.className = `element-dot ${element}`;
+            dot.textContent = wuxingData[element].name;
+        }
+
+        function startQuiz() {
+            currentQuestion = 0;
+            quizAnswers = { wood: 0, fire: 0, earth: 0, metal: 0, water: 0 };
+            showPage('page-quiz');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const totalQuestions = questions.length;
+
+            document.getElementById('quiz-counter').textContent = `${currentQuestion + 1} / ${totalQuestions}`;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestion + 1) / totalQuestions) * 100}%`;
+            document.getElementById('quiz-question').textContent = q.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            q.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'quiz-option';
+                optionEl.innerHTML = `
+                    <span class="option-letter">${letters[index]}</span>
+                    <span class="option-text">${option.text}</span>
+                `;
+                optionEl.onclick = () => selectAnswer(option.element);
+                optionsContainer.appendChild(optionEl);
+            });
+        }
+
+        function selectAnswer(element) {
+            quizAnswers[element]++;
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const totalQuizAnswers = Object.values(quizAnswers).reduce((a, b) => a + b, 0);
+
+            const combinedScores = {};
+            const elements = ['wood', 'fire', 'earth', 'metal', 'water'];
+
+            elements.forEach(element => {
+                const quizScore = (quizAnswers[element] / totalQuizAnswers) * 100;
+                const birthScore = element === userWuxing ? 100 : 0;
+                combinedScores[element] = (birthScore * 0.4) + (quizScore * 0.6);
+            });
+
+            let dominantElement = 'earth';
+            let maxScore = 0;
+            elements.forEach(element => {
+                if (combinedScores[element] > maxScore) {
+                    maxScore = combinedScores[element];
+                    dominantElement = element;
+                }
+            });
+
+            const citiesForElement = cities[dominantElement];
+            const selectedCity = citiesForElement[Math.floor(Math.random() * citiesForElement.length)];
+            resultElement = dominantElement;
+
+            // 属性徽章
+            const elementEn = { wood: 'Wood', fire: 'Fire', earth: 'Earth', metal: 'Metal', water: 'Water' };
+            const badge = document.getElementById('result-element-badge');
+            badge.textContent = `${wuxingData[dominantElement].emoji} ${wuxingData[dominantElement].name}属性 · ${elementEn[dominantElement]}`;
+            badge.style.background = wuxingData[dominantElement].color + '14';
+            badge.style.color = wuxingData[dominantElement].color;
+
+            // 城市展示
+            const circleEl = document.getElementById('city-circle');
+            circleEl.style.background = `linear-gradient(135deg, ${wuxingData[dominantElement].color}22 0%, ${wuxingData[dominantElement].color}44 100%)`;
+            document.getElementById('city-circle-img').src = `images/${selectedCity.id}.jpg`;
+            document.getElementById('result-city').textContent = selectedCity.name;
+            document.getElementById('result-tagline').textContent = cityTaglines[dominantElement][selectedCity.id] || '';
+
+            // 五行得分排序与柱状条渲染
+            const sortedScores = elements.map(e => ({ element: e, score: combinedScores[e] }))
+                .sort((a, b) => b.score - a.score);
+
+            sortedScores.forEach((item, index) => {
+                const el = item.element;
+                const scoreVal = Math.round(item.score);
+                const bar = document.getElementById(`bar-${el}`);
+                const val = document.getElementById(`score-${el}`);
+                const row = document.getElementById(`score-row-${el}`);
+
+                val.textContent = `${scoreVal}%`;
+
+                if (index === 0) {
+                    row.classList.add('active');
+                    val.style.color = wuxingData[el].color;
+                } else {
+                    row.classList.remove('active');
+                    val.style.color = '#3D2B1F';
+                }
+
+                setTimeout(() => {
+                    bar.style.width = `${scoreVal}%`;
+                    bar.style.background = wuxingData[el].color;
+                }, 100 + index * 80);
+            });
+
+            // 为什么是XX
+            document.getElementById('why-title').textContent = `💫 为什么是${selectedCity.name}？`;
+            document.getElementById('why-text').textContent = selectedCity.desc;
+
+            // 关键词标签
+            const kwContainer = document.getElementById('keywords-container');
+            kwContainer.innerHTML = '';
+            const keywords = cityKeywordsData[selectedCity.id] || [];
+            keywords.forEach(kw => {
+                const tag = document.createElement('span');
+                tag.className = 'keyword-tag';
+                tag.textContent = kw;
+                kwContainer.appendChild(tag);
+            });
+
+            // 性格画像
+            document.getElementById('personality-text').textContent = cityPersonalities[dominantElement] || '';
+
+            // 寄语
+            document.getElementById('advice-text').textContent = cityAdvice[dominantElement] || '';
+
+            showPage('page-result');
+        }
+
+        function restartQuiz() {
+            showPage('page-quiz');
+        }
+
+        function goToStart() {
+            showPage('page-birthdate');
+        }
+    </script>
+</body>
+</html>

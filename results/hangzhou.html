@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杭州 - 城市匹配测验结果</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, sans-serif;
+            background: #FAF5F0;
+            color: #3D2B1F;
+            min-height: 100vh;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 480px; margin: 0 auto; padding: 0 20px 32px; }
+
+        /* 品牌头部 */
+        .brand-header {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; padding: 24px 0 8px;
+        }
+        .brand-badge {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #C97F7F; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-family: 'Noto Serif SC', serif;
+        }
+        .brand-text { font-family: 'Noto Serif SC', serif; font-size: 14px; color: #6B5A4E; }
+        .brand-text-en { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 11px; color: #C9A96E; letter-spacing: 2px; }
+
+        /* 装饰标题 */
+        .deco-title { text-align: center; margin-bottom: 20px; }
+        .deco-title .en { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 11px; color: #C9A96E; letter-spacing: 3px; display: block; margin-bottom: 6px; }
+        .deco-title .main { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 700; color: #3D2B1F; }
+        .deco-title .main .highlight { color: #C97F7F; }
+        .deco-title .sub { font-family: 'Noto Serif SC', serif; font-style: italic; font-size: 12px; color: #A89888; letter-spacing: 2px; margin-top: 6px; display: block; }
+
+        /* 城市展示区 */
+        .city-showcase { text-align: center; padding: 8px 0 16px; }
+        .best-match-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #D4837F 0%, #C4736F 100%);
+            color: white; font-size: 11px; padding: 4px 14px;
+            border-radius: 20px; margin-bottom: 14px; font-weight: 500; letter-spacing: 1px;
+        }
+        .city-circle {
+            width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 14px;
+            display: flex; align-items: center; justify-content: center; font-size: 64px;
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #7CB34222 0%, #7CB34244 100%);
+            box-shadow: 0 6px 24px rgba(61,43,31,0.08);
+        }
+        .city-circle img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+        }
+        .city-circle::after {
+            content: ''; position: absolute; inset: -4px; border-radius: 50%;
+            border: 2px solid rgba(201,169,110,0.3);
+        }
+        .city-name-zh { font-family: 'Noto Serif SC', serif; font-size: 38px; font-weight: 900; color: #3D2B1F; letter-spacing: 6px; margin-bottom: 4px; }
+        .city-tagline { font-family: 'Noto Serif SC', serif; font-size: 14px; color: #C97F7F; letter-spacing: 2px; margin-bottom: 8px; }
+        .city-subtitle { font-size: 12px; color: #A89888; letter-spacing: 1px; }
+
+        /* 卡片 */
+        .card {
+            background: #FFFFFF; border-radius: 20px; padding: 24px;
+            margin-bottom: 14px; box-shadow: 0 2px 16px rgba(61,43,31,0.04);
+            border: 1px solid rgba(185,160,130,0.1);
+        }
+        .card-warm { background: #FFF9F4; }
+        .card-title {
+            font-family: 'Noto Serif SC', serif; font-size: 16px; font-weight: 700;
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .card-desc { font-size: 14px; color: #6B5A4E; line-height: 2; }
+
+        /* 五行标签 */
+        .element-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(124,179,66,0.08); color: #558B2F;
+            font-size: 13px; font-weight: 600; padding: 6px 14px;
+            border-radius: 12px; margin-bottom: 12px;
+        }
+
+        /* 关键词 */
+        .keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .keyword {
+            background: rgba(124,179,66,0.08); color: #558B2F;
+            font-size: 12px; padding: 5px 12px; border-radius: 16px; font-weight: 500;
+        }
+
+        /* 五行得分条 */
+        .score-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+        .score-label { width: 52px; font-size: 12px; color: #A89888; text-align: right; flex-shrink: 0; }
+        .score-bar-wrap { flex: 1; height: 6px; background: #F3EDE6; border-radius: 3px; overflow: hidden; }
+        .score-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+        .score-val { width: 32px; font-size: 12px; font-weight: 600; color: #3D2B1F; text-align: left; flex-shrink: 0; }
+        .score-row.active .score-val { color: #558B2F; font-size: 14px; }
+        .score-row.active .score-label { font-weight: 600; color: #558B2F; }
+
+        /* 竖线装饰引用 */
+        .quote { position: relative; padding-left: 14px; border-left: 3px solid #7CB342; }
+
+        /* 按钮 */
+        .btn {
+            width: 100%; padding: 16px 24px; border: none; border-radius: 16px;
+            font-size: 15px; font-weight: 600; font-family: inherit;
+            cursor: pointer; transition: all 0.25s ease;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #D4837F 0%, #C4736F 100%);
+            color: white; box-shadow: 0 4px 16px rgba(196,115,111,0.25);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,115,111,0.35); }
+        .btn-secondary {
+            background: #FFFFFF; color: #6B5A4E; border: 1px solid rgba(185,160,130,0.15);
+        }
+        .btn-secondary:hover { background: #FFF9F4; }
+
+        /* 底部分隔线 */
+        .section-divider {
+            text-align: center; margin: 20px 0 16px;
+            font-family: 'Noto Serif SC', serif; font-size: 13px; color: #A89888;
+            letter-spacing: 2px;
+        }
+        .section-divider .line {
+            display: inline-block; width: 40px; height: 1px;
+            background: rgba(185,160,130,0.2); vertical-align: middle; margin: 0 10px;
+        }
+
+        /* 底部 */
+        .footer { text-align: center; padding: 16px 0; color: #C9B8A8; font-size: 11px; font-family: 'Noto Serif SC', serif; letter-spacing: 1px; }
+
+        @media (max-width: 380px) {
+            .city-name-zh { font-size: 32px; letter-spacing: 4px; }
+            .city-circle { width: 130px; height: 130px; }
+            .deco-title .main { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand-header">
+            <div class="brand-badge">五</div>
+            <span class="brand-text">五行城市</span>
+            <span class="brand-text-en">Five Elements City</span>
+        </div>
+
+        <div class="deco-title">
+            <span class="en">your destiny city</span>
+            <div class="main">你的五行<span class="highlight">城市</span></div>
+            <span class="sub">based on your element & personality</span>
+        </div>
+
+        <div class="city-showcase">
+            <div class="best-match-badge">⭐ 最佳匹配</div>
+            <div class="city-circle"><img src="../images/hangzhou.jpg" alt="杭州"></div>
+            <div class="city-name-zh">杭州</div>
+            <div class="city-tagline">江南忆，最忆是杭州</div>
+            <div class="city-subtitle">西湖潋滟 · 互联网创新 · 生活品质之城</div>
+        </div>
+
+        <div class="card">
+            <div class="element-badge">🌲 木属性 · Wood</div>
+            <div class="card-title">⚖️ 五行匹配度</div>
+            
+                <div class="score-row active">
+                    <div class="score-label">🌲 木</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" style="width:58%;background:#7CB342;"></div>
+                    </div>
+                    <div class="score-val">58%</div>
+                </div>
+                <div class="score-row ">
+                    <div class="score-label">🔥 火</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" style="width:52%;background:#E57373;"></div>
+                    </div>
+                    <div class="score-val">52%</div>
+                </div>
+                <div class="score-row ">
+                    <div class="score-label">🏔️ 土</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" style="width:42%;background:#BCAAA4;"></div>
+                    </div>
+                    <div class="score-val">42%</div>
+                </div>
+                <div class="score-row ">
+                    <div class="score-label">⚙️ 金</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" style="width:62%;background:#90A4AE;"></div>
+                    </div>
+                    <div class="score-val">62%</div>
+                </div>
+                <div class="score-row ">
+                    <div class="score-label">💧 水</div>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar" style="width:45%;background:#64B5F6;"></div>
+                    </div>
+                    <div class="score-val">45%</div>
+                </div>
+        </div>
+
+        <div class="card card-warm">
+            <div class="card-title">💫 为什么是杭州？</div>
+            <div class="card-desc quote">杭州的灵动温润、创业创新精神与木属性的生长开拓完美契合。西湖水的滋养让这座城市永远勃勃生机，正如你内心永不停歇的成长渴望。这里有阿里巴巴代表的创新力量，也有灵隐寺代表的宁静致远——你既能拥抱变革，又懂得沉淀。</div>
+            <div class="keywords">
+                <span class="keyword">🌊 西湖</span>
+<span class="keyword">💻 互联网</span>
+<span class="keyword">🎨 文创</span>
+<span class="keyword">🍵 龙井</span>
+<span class="keyword">🏮 南宋</span>
+            </div>
+        </div>
+
+        <div class="section-divider"><span class="line"></span>性格解读<span class="line"></span></div>
+
+        <div class="card">
+            <div class="card-title">🧠 你的性格画像</div>
+            <div class="card-desc">你是一个充满生命力的人，像春天的树木一样不断向上生长。你天性善良温和，对世界充满好奇心，总是能在平凡中发现美好与诗意。你的创造力像新芽一样源源不断地涌现，你的耐心让身边的人感到安心。</div>
+        </div>
+
+        <div class="card card-warm">
+            <div class="card-title">💡 给你的话</div>
+            <div class="card-desc">像树木扎根一般，找到让你安心的土壤，不急于求成。生长需要时间，你的每一次努力都会在未来的某一天开花结果。</div>
+            <div class="card-desc" style="margin-top:10px;">你善于规划和构思长远之事，像建筑师般搭建未来。面对困难时，你会像树根般深扎，从逆境中汲取养分。</div>
+        </div>
+
+        <a href="../index.html" class="btn btn-primary" style="margin-bottom:10px;">
+            🔄 再测一次
+        </a>
+        <a href="../results-index.html" class="btn btn-secondary">
+            🏙️ 查看全部城市
+        </a>
+
+        <div class="footer">
+            <p>五行城市 · 找到属于你的城</p>
+        </div>
+    </div>
+</body>
+</html>
