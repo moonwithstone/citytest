@@ -59,7 +59,7 @@
             flex: 1;
             flex-direction: column;
             animation: fadeIn 0.5s ease;
-            padding-bottom: 32px;
+            padding: 20px 0 32px;
         }
 
         .page.active { display: flex; }
@@ -169,7 +169,7 @@
         /* ========== 性格解读分隔线 ========== */
         .section-divider {
             text-align: center;
-            margin: 20px 0 16px;
+            margin: 0 0 16px;
             font-family: 'Noto Serif SC', serif;
             font-size: 13px;
             color: #A89888;
@@ -441,7 +441,7 @@
             background: var(--border);
             height: 3px;
             border-radius: 2px;
-            margin: 20px 0 16px;
+            margin: 0 0 16px;
             overflow: hidden;
         }
         .quiz-progress-bar {
@@ -510,7 +510,7 @@
         /* ========== 最终结果页 ========== */
         .result-hero {
             text-align: center;
-            padding: 20px 0 8px;
+            padding: 0 0 8px;
         }
         .result-hero .en-label {
             font-family: 'Noto Serif SC', serif;
@@ -966,16 +966,8 @@
                 <p class="card-desc" id="advice-text">就像树木需要扎根才能茁壮，你也要在稳健的基础上追求成长。</p>
             </div>
 
-            <button class="btn btn-secondary" onclick="restartQuiz()" style="margin-bottom:10px;">
-                🔄 重新测验
-            </button>
-
-            <a class="btn btn-outline" href="results-index.html" style="margin-bottom:10px; text-decoration:none; display:block;">
-                🗺️ 查看所有城市
-            </a>
-
-            <button class="btn btn-outline" onclick="goToStart()">
-                📅 修改出生日期
+            <button class="btn btn-primary" onclick="restartQuiz()" style="margin-bottom:10px;">
+                🔄 再测一次
             </button>
 
             <p class="footer-text">小红书：温蒂AI分享</p>
